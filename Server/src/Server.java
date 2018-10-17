@@ -11,6 +11,11 @@ public class Server {
 	static java.util.Date serverCreate;
 	private static int maxClients = 0;
 	private static boolean morePlayersCanJoin = true;
+	private static String[] playerNames;
+	private static String client = "Client ";	
+	public int getNumberOfClients() {
+		return maxClients;
+	}
 	public static void main(String[] args) {
 
 		// Creating a thread for the server
@@ -29,12 +34,14 @@ public class Server {
 					InetAddress inetAddress = server.getInetAddress();
 					System.out.println("Client " + maxClients + "'s host name is " + inetAddress.getHostName());
 					System.out.println("Client " + maxClients + "'s IP Address is " + inetAddress.getHostAddress());
+					
 					// Creating a new thread for each client connecting
 					new Thread(new HandleAClient(socket)).start();
 					
 					if(maxClients >= 4) { 
 						morePlayersCanJoin = false;
 					}
+
 				} 
 				
 			} catch (IOException ex) {

@@ -13,6 +13,9 @@ public class Dice {
 		sides = players + 1;
 	}
 
+	public int getDiceSize() {
+		return this.sides;
+	}
 	// Rolling the die
 	public int roll() {
 
