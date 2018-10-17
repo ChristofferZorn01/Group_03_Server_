@@ -50,6 +50,7 @@ class HandleAClient extends Server implements Runnable {
 
 	public void run() {
 		try {
+			//
 			// data received and send
 			DataInputStream in = new DataInputStream(socket.getInputStream());
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
