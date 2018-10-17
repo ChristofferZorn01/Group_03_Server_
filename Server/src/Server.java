@@ -1,3 +1,4 @@
+
 /*import java.net.*;
 import java.io.*;
 import java.util.*;*/
@@ -9,7 +10,9 @@ import java.util.Date;
 
 public class Server {
 	static java.util.Date serverCreate;
-	private static int maxClients = 0;
+	private static boolean maxConnect = true;
+	private static float maxClients = 0;
+
 	public static void main(String[] args) {
 
 		// Creating a thread for the server
@@ -19,7 +22,7 @@ public class Server {
 				serverCreate = new java.util.Date();
 				System.out.println("The Server Was Created: " + serverCreate);
 
-				while (maxClients < 4 || maxClients == 4) {
+				while (maxConnect) {
 					// Listen to clients
 					Socket socket = server.accept();
 					// adding to the number of clients connected
@@ -29,8 +32,18 @@ public class Server {
 					System.out.println("Client " + maxClients + "'s IP Address is " + inetAddress.getHostAddress());
 					// Creating a new thread for each client connecting
 					new Thread(new HandleAClient(socket)).start();
-				} 
-				
+
+					// if the amounts of clients reaches 4 the socket will close
+					if (maxClients == 4 || maxClients > 4) {
+						maxConnect = false;
+						socket.close();
+						System.out.println("Limit Reached");
+					} else {
+						maxConnect = true;
+					}
+
+				}
+
 			} catch (IOException ex) {
 				System.err.println(ex);
 			}
@@ -43,7 +56,6 @@ public class Server {
 class HandleAClient implements Runnable {
 	private Socket socket;
 
-
 	HandleAClient(Socket socket) {
 		this.socket = socket;
 	}
@@ -55,17 +67,19 @@ class HandleAClient implements Runnable {
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
 			while (true) {
-			
-				//recive answer from the client - what did it roll?
+
+				// recive answer from the client - what did it roll?
 				int diceRoll = in.readInt();
-				
-				//Add the diceRoll to the clients existing score
+
+				// Add the diceRoll to the clients existing score
 				int clientScore = 0 + diceRoll;
-				
-				//Send the clientScore back to the client
+
+				// Send the clientScore back to the client
 				out.writeInt(clientScore);
 			}
-		} catch (IOException e) {
+		}
+
+		catch (IOException e) {
 			System.err.println(e);
 		}
 	}
