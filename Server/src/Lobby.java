@@ -11,18 +11,22 @@ public class Lobby extends Server implements Runnable {
 	public static int PLAYER3 = 3; // Indicate player 3
 	public static int PLAYER4 = 4; // Indicate player 4
 
+	// Create socket for each player
 	private Socket player1;
 	private Socket player2;
 	private Socket player3;
 	private Socket player4;
 	
+	// Get data from players
 	private DataInputStream dataInputFromPlayer1;
-	private DataOutputStream dataOutputToPlayer1;
 	private DataInputStream dataInputFromPlayer2;
-	private DataOutputStream dataOutputToPlayer2;
 	private DataInputStream dataInputFromPlayer3;
-	private DataOutputStream dataOutputToPlayer3;
 	private DataInputStream dataInputFromPlayer4;
+	
+	// Get output data from players
+	private DataOutputStream dataOutputToPlayer1;
+	private DataOutputStream dataOutputToPlayer2;
+	private DataOutputStream dataOutputToPlayer3;
 	private DataOutputStream dataOutputToPlayer4;
 	
 	// Lobby constructor
@@ -33,7 +37,6 @@ public class Lobby extends Server implements Runnable {
 		this.player4 = player4;
 	}
 	
-
 	public void run() {
 		
 		try {

@@ -40,7 +40,7 @@ public class Server {
 
 }
 
-class HandleAClient implements Runnable {
+class HandleAClient extends Server implements Runnable {
 	private Socket socket;
 
 
@@ -50,13 +50,13 @@ class HandleAClient implements Runnable {
 
 	public void run() {
 		try {
-			// data recieved and send
+			// data received and send
 			DataInputStream in = new DataInputStream(socket.getInputStream());
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
 			while (true) {
 			
-				//recive answer from the client - what did it roll?
+				//receive answer from the client - what did it roll?
 				int diceRoll = in.readInt();
 				
 				//Add the diceRoll to the clients existing score
