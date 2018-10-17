@@ -133,7 +133,7 @@ class HandleAClient implements Runnable {
 	
 	public void run() {
 		try {
-			// data recieved and send
+			// data recieved and sent for each individual client
 			DataInputStream fromPLayer1 = new DataInputStream(socket1.getInputStream());
 			DataOutputStream toPlayer1 = new DataOutputStream(socket1.getOutputStream());
 			
