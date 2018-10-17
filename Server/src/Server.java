@@ -27,6 +27,7 @@ public class Server {
 					InetAddress inetAddress = server.getInetAddress();
 					System.out.println("Client " + maxClients + "'s host name is " + inetAddress.getHostName());
 					//
+					//
 					System.out.println("Client " + maxClients + "'s IP Address is " + inetAddress.getHostAddress());
 					// Creating a new thread for each client connecting
 					new Thread(new HandleAClient(socket)).start();
