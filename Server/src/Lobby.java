@@ -1,110 +1,49 @@
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
+import java.net.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.concurrent.Semaphore;
 
-import master.MasterServer;
+public class Lobby extends Server implements Runnable {
 
-/**
- * The Class Server.
- */
-public class Lobby implements Serializable {
+	public static int PLAYER1 = 1; // Indicate player 1
+	public static int PLAYER2 = 2; // Indicate player 2
+	public static int PLAYER3 = 3; // Indicate player 3
+	public static int PLAYER4 = 4; // Indicate player 4
 
-	private static final long serialVersionUID = -2164975550905862549L;
-	public static final int PORT = 4445;
-	public static final int MAX_USERS = 5000;
-	public static final String HOST = "localhost";
-	public String name = "Generic Server";
-
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *            the arguments
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ClassNotFoundException
-	 *             the class not found exception
-	 */
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
-
-		Server s = new Server();
-		s.name = args[0];
-		s.runServer();
+	private Socket player1;
+	private Socket player2;
+	private Socket player3;
+	private Socket player4;
+	
+	private DataInputStream dataInputFromPlayer1;
+	private DataOutputStream dataOutputToPlayer1;
+	private DataInputStream dataInputFromPlayer2;
+	private DataOutputStream dataOutputToPlayer2;
+	private DataInputStream dataInputFromPlayer3;
+	private DataOutputStream dataOutputToPlayer3;
+	private DataInputStream dataInputFromPlayer4;
+	private DataOutputStream dataOutputToPlayer4;
+	
+	// Lobby constructor
+	public Lobby(Socket player1, Socket player2, Socket player3, Socket player4) {
+		this.player1 = player1;
+		this.player2 = player2;
+		this.player3 = player3;
+		this.player4 = player4;
 	}
+	
 
-	/**
-	 * Run server.
-	 *
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ClassNotFoundException
-	 *             the class not found exception
-	 */
-	public void runServer() throws IOException, ClassNotFoundException {
-
-		registerServer();
-
-		ServerSocket serverSocket = new ServerSocket(PORT);
-		System.out.println("Server waiting for connections...");
-
-		while (true) {
-
-			Socket socket = serverSocket.accept();
-			new ServerThread(socket).start();
-		}
-	}
-
-	private void registerServer() throws UnknownHostException, IOException, ClassNotFoundException {
-
-		Socket socket = new Socket(MasterServer.HOST, MasterServer.PORT);
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-		ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-
-		objectOutputStream.writeObject(this);
-
-		System.out.println((String) objectInputStream.readObject());
-	}
-
-	public class ServerThread extends Thread {
-
-		public Socket socket = null;
-
-		ServerThread(Socket socket) {
-
-			this.socket = socket;
-		}
-
-		public void run() {
-
-			try {
-
-				ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-
-				Client joined = (Client) objectInputStream.readObject();
-
-				System.out.println(joined.name + " is now connected.");
-
-				objectOutputStream.writeObject("You joined the server.");
-
-				while (true) {
-
-					System.out.println(objectInputStream.readObject());
-				}
-
-			} catch (ClassNotFoundException e) {
-
-				e.printStackTrace();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+	public void run() {
+		
+		try {
+			DataInputStream dataInputFromPlayer1 = new DataInputStream(player1.getInputStream());
+			DataInputStream dataInputFromPlayer2 = new DataInputStream(player2.getInputStream());
+			DataInputStream dataInputFromPlayer3 = new DataInputStream(player3.getInputStream());
+			DataInputStream dataInputFromPlayer4 = new DataInputStream(player4.getInputStream());
+			
+		} catch(IOException ex) {
+			System.err.println(ex);
 		}
 	}
 }
