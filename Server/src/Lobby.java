@@ -10,10 +10,10 @@ public class Lobby extends Server{
 		
 	}
 	
-//	public Lobby(String clientName, int playerScore) {
-//		this.clientName = clientName;
-//		this.playerScore = playerScore;
-//	}
+	public Lobby(String clientName, int playerScore) {
+		this.clientName = clientName;
+		this.playerScore = playerScore;
+	}
 
 
 	// This should return client's name, followed by their individual score
