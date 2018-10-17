@@ -15,6 +15,7 @@ public class Server {
 
 		// Creating a thread for the server
 		new Thread(() -> {
+			
 			try {
 				ServerSocket server = new ServerSocket(7845);
 				serverCreate = new java.util.Date();
