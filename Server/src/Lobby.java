@@ -1,26 +1,45 @@
 
-public class Lobby extends Server{
+public class Lobby extends Server {
 	
 	private static int boardScore;
 	static int diceRoll;
+	static int diceSize;
 	private static boolean playerReady;
 	private static int playerScore;
+	private static int numberOfPlayers;
 	private static String clientName;
-	public Lobby() {
-		
+	
+//	numberOfPlayers = Server.getNumberOfClients();
+	
+	newDiceTest dice = new newDiceTest(numberOfPlayers);
+	
+	private boolean checkIfReady() {
+		if(playerReady == false) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
-	public Lobby(String clientName, int playerScore) {
-		this.clientName = clientName;
-		this.playerScore = playerScore;
+//	public Lobby() {
+//		
+//	}
+//	
+//	public Lobby(String clientName, int playerScore) {
+//		this.clientName = clientName;
+//		this.playerScore = playerScore;
+//	}
+
+	
+	// !!!!!!!!!! The following functions probably belong in a Board class, not this class !!!!!!!!!!!! //
+	public void setDiceSize() {
+		diceSize = dice.getDiceSize();
 	}
-
-
+	
 	// This should return client's name, followed by their individual score
 	public int getBoardScore() {
 		return this.playerScore;
 	}
-	
 	
 	// Not sure what this one should do, it's taken from the class diagram
 	public int getDiceRoll() {
@@ -35,13 +54,7 @@ public class Lobby extends Server{
 		this.playerScore += diceToScore;
 	}
 	
-	private boolean checkIfReady() {
-		if(playerReady == false) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
