@@ -137,16 +137,24 @@ class HandleAClient implements Runnable {
 			DataInputStream fromPLayer1 = new DataInputStream(socket1.getInputStream());
 			DataOutputStream toPlayer1 = new DataOutputStream(socket1.getOutputStream());
 			
+			toPlayer1.writeInt(1);
+			
 			// data recieved and send
 			DataInputStream fromPlayer2 = new DataInputStream(socket2.getInputStream());
 			DataOutputStream toPlayer2 = new DataOutputStream(socket2.getOutputStream());
 			
+			toPlayer2.writeInt(2);
+			
 			DataInputStream fromPlayer3 = new DataInputStream(socket3.getInputStream());
 			DataOutputStream toPlayer3 = new DataOutputStream(socket3.getOutputStream());
+			
+			toPlayer3.writeInt(3);
 			
 			DataInputStream fromPlayer4 = new DataInputStream(socket4.getInputStream());
 			DataOutputStream toPlayer4 = new DataOutputStream(socket4.getOutputStream());
 
+			toPlayer4.writeInt(4);
+			
 			while (true) {
 			
 //				//recive answer from the client - what did it roll?
