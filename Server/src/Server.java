@@ -1,3 +1,4 @@
+
 /*import java.net.*;
 import java.io.*;
 import java.util.*;*/
@@ -12,15 +13,16 @@ public class Server {
 	private static int maxClients = 0;
 	private static boolean morePlayersCanJoin = true;
 	private static String[] playerNames;
-	private static String client = "Client ";	
+	private static String client = "Client ";
+
 	public int getNumberOfClients() {
 		return maxClients;
 	}
+
 	public static void main(String[] args) {
 
 		// Creating a thread for the server
 		new Thread(() -> {
-			
 			try {
 				ServerSocket server = new ServerSocket(7845);
 				serverCreate = new java.util.Date();
@@ -34,6 +36,7 @@ public class Server {
 					InetAddress inetAddress = server.getInetAddress();
 					System.out.println("Client " + maxClients + "'s host name is " + inetAddress.getHostName());
 					System.out.println("Client " + maxClients + "'s IP Address is " + inetAddress.getHostAddress());
+
 					
 					Socket player2 = server.accept();
 					maxClients++;
@@ -54,9 +57,8 @@ public class Server {
 					System.out.println("Client " + maxClients + "'s IP Address is " + inetAddress4.getHostAddress());
 					// adding to the number of clients connected
 
-
-					
 					// Creating a new thread for each client connecting
+
 					// Using a Switch statement to determine how many threads need to be started, based on player count
 					switch (maxClients) {
 					case 1: 
@@ -76,27 +78,26 @@ public class Server {
 					}
 	
 					
-					if(maxClients >= 4) { 
-						morePlayersCanJoin = false;
-					}
+//					if(maxClients >= 4) { 
+////					new Thread(new HandleAClient(socket)).start();
 
-				} 
-				
+					if (maxClients >= 4) {
+						morePlayersCanJoin = false;
+				}
+			}		
 			} catch (IOException ex) {
 				System.err.println(ex);
 			}
-
+		
 		}).start();
-	}
 
 }
-
+}
 class HandleAClient implements Runnable {
 	private Socket socket1;
 	private Socket socket2;
 	private Socket socket3;
 	private Socket socket4;
-
 
 	HandleAClient(Socket socket) {
 		this.socket1 = socket;
@@ -156,6 +157,7 @@ class HandleAClient implements Runnable {
 			toPlayer4.writeInt(4);
 			
 			while (true) {
+
 			
 //				//recive answer from the client - what did it roll?
 //				int diceRoll = in.readInt();
@@ -165,8 +167,21 @@ class HandleAClient implements Runnable {
 //				
 //				//Send the clientScore back to the client
 //				out.writeInt(clientScore);
+
+
+				// recive answer from the client - what did it roll?
+//				int diceRoll = in.readInt();
+//
+//				// Add the diceRoll to the clients existing score
+//				int clientScore = 0 + diceRoll;
+//
+//				// Send the clientScore back to the client
+//				out.writeInt(clientScore);
+
 			}
-		} catch (IOException e) {
+		}
+
+		catch (IOException e) {
 			System.err.println(e);
 		}
 	}
