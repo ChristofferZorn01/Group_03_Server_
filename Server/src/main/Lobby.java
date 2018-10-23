@@ -1,4 +1,4 @@
-	package main;
+package main;
 
 	import java.io.IOException;
 	import java.io.ObjectInputStream;
@@ -21,7 +21,7 @@
 		public static final String HOST = "localhost";
 		public String name = "Lobby Server";
 		public int clientNumber;
-		public int playerNumberReady;
+		public int playerNumberReady = 0;
 		public boolean allPlayersReady = false;
 		public boolean OddurIsNice = false;
 		
@@ -31,14 +31,28 @@
 		}
 		public void runServer() throws IOException, ClassNotFoundException {
 			registerServer();
-			ServerSocket serverSocket = new ServerSocket(PORT);
-			System.out.println("Server waiting for connections...");
-			while (true) {
-				Socket socket = serverSocket.accept();
-				clientNumber++;
-				new ServerThread(socket).start();
-			
-			}
+			new Thread( () -> {
+				try {
+					ServerSocket serverSocket = new ServerSocket(PORT);
+					System.out.println("Server waiting for connections...");
+					while (true) {
+						Socket socket = serverSocket.accept();
+						System.out.println("User 1 is now connected");
+						clientNumber++;
+//						new ObjectOutputStream(socket.getOutputStream()).writeObject("You are connected man");
+						Socket socket2 = serverSocket.accept();
+						System.out.println("User 2 is now connected");
+						clientNumber++;
+//						ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(socket2.getOutputStream());
+//						objectOutputStream2.writeObject("You are player number " + clientNumber + ". Waiting for other players to join");
+						new ServerThread(socket, socket2).start();
+					
+					}
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}).start();
+
 		}
 		private void registerServer() throws UnknownHostException, IOException, ClassNotFoundException {
 			// Method for establishing a connection to the MainServer 
@@ -52,8 +66,10 @@
 		}
 		public class ServerThread extends Thread {
 			public Socket socket = null;
-			ServerThread(Socket socket) {
+			public Socket socket2 = null;
+			ServerThread(Socket socket, Socket socket2) {
 				this.socket = socket;
+				this.socket2 = socket2;
 			}
 			public void run() {
 				try {		
@@ -61,38 +77,56 @@
 					// This method is for when the client want's to connect to the lobby
 					ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 					ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+					System.out.println("User 1 is now connected");
 					
+					ObjectInputStream objectInputStream2 = new ObjectInputStream(socket2.getInputStream());
+					ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(socket2.getOutputStream());
+					System.out.println("User 2 is now connected");
 					BoardGameClient joined = (BoardGameClient) objectInputStream.readObject();
 					System.out.println(joined.name + " is now connected.");
-					
+					while(true) {
 					objectOutputStream.writeObject("You joined the server.");
-					objectOutputStream.writeObject("You are player Number " + clientNumber);
+					objectOutputStream.writeObject("You are player Number " + 1);
 					
 					objectOutputStream.writeObject("Press '1' if you are ready");
+					
+					objectOutputStream2.writeObject("You joined the server.");
+					objectOutputStream2.writeObject("You are player Number " + 2);
+					
+					objectOutputStream2.writeObject("Press '1' if you are ready");
 					
 					if(objectInputStream.readObject().equals(1)) {
 						playerNumberReady++;
 					}
 					
-						if (playerNumberReady == 2) {
+					if(objectInputStream2.readObject().equals(1)) {
+						playerNumberReady++;
+					}
+					
+						if(playerNumberReady != 2) {
+							allPlayersReady = false;
+						} else {
 							allPlayersReady = true;
 						}
 					
-					while (true) {
+					
 					
 						if (allPlayersReady == false) {
 							objectOutputStream.writeObject("Waiting...");
+							objectOutputStream2.writeObject("Waiting...");
 					} 
 					
 						if (allPlayersReady == true) {
 						objectOutputStream.writeObject("Lets GO");
+						objectOutputStream2.writeObject("Lets GO");
 					}							
 				
 					
-					while (true) {
-						System.out.println(objectInputStream.readObject());
+//					while (true) {
+//						System.out.println(objectInputStream.readObject());
+//					}
 					}
-				}} catch (ClassNotFoundException e) {
+					} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -128,7 +162,6 @@
 //		this.clientName = clientName;
 //		this.playerScore = playerScore;
 //	}
-
 	
 	// !!!!!!!!!! The following functions probably belong in a Board class, not this class !!!!!!!!!!!! //
 	public void setDiceSize() {
@@ -153,11 +186,8 @@
 		this.playerScore += diceToScore;
 	}
 	
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
 	}
-
 }
 */
