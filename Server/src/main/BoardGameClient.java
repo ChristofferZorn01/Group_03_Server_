@@ -8,15 +8,18 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
 import master.MainServer;
 
 public class BoardGameClient implements Serializable {
 	
+	private int playerName;
 	private static final long serialVersionUID = -6224L;
 	public String name = "User";
 	private transient Socket socket;
+	public transient Scanner input = new Scanner(System.in);	
 
 	public static void main(String[] args) {
 
@@ -48,6 +51,13 @@ public class BoardGameClient implements Serializable {
 
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
+		System.out.println(objectInputStream.readObject());
+		System.out.println(objectInputStream.readObject());
+		System.out.println(objectInputStream.readObject());
+		
+		int ready = input.nextInt();
+		objectOutputStream.writeObject(ready);
+		
 		System.out.println(objectInputStream.readObject());
 
 		while (true) {

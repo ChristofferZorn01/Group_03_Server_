@@ -20,6 +20,10 @@
 		public static final int MAX_USERS = 5000;
 		public static final String HOST = "localhost";
 		public String name = "Lobby Server";
+		public int clientNumber;
+		public int playerNumberReady;
+		public boolean allPlayersReady = false;
+		
 		public static void main(String[] args) throws IOException, ClassNotFoundException {
 			Lobby s = new Lobby();
 			s.runServer();
@@ -30,15 +34,19 @@
 			System.out.println("Server waiting for connections...");
 			while (true) {
 				Socket socket = serverSocket.accept();
+				clientNumber++;
 				new ServerThread(socket).start();
+			
 			}
 		}
 		private void registerServer() throws UnknownHostException, IOException, ClassNotFoundException {
 			// Method for establishing a connection to the MainServer 
 			Socket socket = new Socket(MainServer.HOST, MainServer.PORT);
+			
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 			objectOutputStream.writeObject(this);
+			
 			System.out.println((String) objectInputStream.readObject());
 		}
 		public class ServerThread extends Thread {
@@ -47,17 +55,43 @@
 				this.socket = socket;
 			}
 			public void run() {
-				try {			
+				try {		
+					
 					// This method is for when the client want's to connect to the lobby
 					ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 					ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+					
 					BoardGameClient joined = (BoardGameClient) objectInputStream.readObject();
 					System.out.println(joined.name + " is now connected.");
+					
 					objectOutputStream.writeObject("You joined the server.");
+					objectOutputStream.writeObject("You are player Number " + clientNumber);
+					
+					objectOutputStream.writeObject("Press '1' if you are ready");
+					
+					if(objectInputStream.readObject().equals(1)) {
+						playerNumberReady++;
+					}
+					
+						if (playerNumberReady == 2) {
+							allPlayersReady = true;
+						}
+					
+					while (true) {
+					
+						if (allPlayersReady == false) {
+							objectOutputStream.writeObject("Waiting...");
+					} 
+					
+						if (allPlayersReady == true) {
+						objectOutputStream.writeObject("Lets GO");
+					}							
+				
+					
 					while (true) {
 						System.out.println(objectInputStream.readObject());
 					}
-				} catch (ClassNotFoundException e) {
+				}} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
