@@ -44,15 +44,23 @@ import java.io.IOException;
 					ServerSocket serverSocket = new ServerSocket(PORT);
 					System.out.println("Server waiting for connections...");
 					while (true) {
+						
+						// Client 1 is assigned to socket
 						Socket socket = serverSocket.accept();
 						System.out.println("User 1 is now connected");
-						clientNumber++;
+						clientNumber++;  // not really used now
+						
 //						new ObjectOutputStream(socket.getOutputStream()).writeObject("You are connected man");
+						
+						// Client 1 is assigned to socket2
 						Socket socket2 = serverSocket.accept();
 						System.out.println("User 2 is now connected");
-						clientNumber++;
+						clientNumber++; // not really used now
+						
 //						ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(socket2.getOutputStream());
 //						objectOutputStream2.writeObject("You are player number " + clientNumber + ". Waiting for other players to join");
+						
+						// Start the threads with both the users
 						new ServerThread(socket, socket2).start();
 					
 					}
@@ -82,47 +90,51 @@ import java.io.IOException;
 			public void run() {
 				try {		
 					
-					// This method is for when the client want's to connect to the lobby
+					// This method is for when the client wants to connect to the lobby
 					DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
 					DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
 					System.out.println(socket);
 					System.out.println("User 1 is now connected");
 
-					
+					// This method is for when the second client wants to connect to the lobby
 					DataInputStream objectInputStream2 = new DataInputStream(socket2.getInputStream());
 					DataOutputStream objectOutputStream2 = new DataOutputStream(socket2.getOutputStream());
 					System.out.println(socket2);
 					System.out.println("User 2 is now connected");
+					
 //					BoardGameClient joined = (BoardGameClient) objectInputStream.readObject();
 //					System.out.println(joined.name + " is now connected.");
 //					while(true) {
+					
+					// Send info to the client 1
 					objectOutputStream.writeUTF(joinedServer);
 					objectOutputStream.writeUTF(youArePlayerNumber + 1);
-					
 					objectOutputStream.writeUTF(pressIfReady);
 					
+					// Send info to the client 1
 					objectOutputStream2.writeUTF(joinedServer);
 					objectOutputStream2.writeUTF(youArePlayerNumber + 2);
-					
 					objectOutputStream2.writeUTF(pressIfReady);
 					
+					// Check if the input received from client 1 is 1 (player is ready)
 					if(objectInputStream.readInt() == 1) {
 						System.out.println("Player number before increment from user 1: " + playerNumberReady);
 						playerNumberReady++;
 						System.out.println("Player number after increment from user 1: " + playerNumberReady);
 						allPlayersReady = checkIfAllPlayersReady();
 						if(allPlayersReady == false) {
-							objectOutputStream.writeUTF(waiting);
+							objectOutputStream.writeUTF(waiting); // Send to client 1 that not all users are ready
 						}
 					}
-
+					
+					// Check if the input received from client 2 is 1 (player is ready)
 					if(objectInputStream2.readInt() == 1) {
 						System.out.println("Player number before increment from user 2: " + playerNumberReady);
 						playerNumberReady++;
 						System.out.println("Player number after increment from user 2: " + playerNumberReady);
 						allPlayersReady = checkIfAllPlayersReady();
 						if (allPlayersReady == true) {
-							objectOutputStream.writeUTF(letsGo);
+							objectOutputStream.writeUTF(letsGo); // Send to both clients that all users are ready
 							objectOutputStream2.writeUTF(letsGo);
 					}					
 					}

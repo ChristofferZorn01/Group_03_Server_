@@ -47,22 +47,28 @@ public class BoardGameClient implements Serializable {
 
 	public void joinServer() throws UnknownHostException, IOException, ClassNotFoundException {
 
+		// Connect to the lobby
 		socket = new Socket(Lobby.HOST, Lobby.PORT);
 		DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
 		DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
 		System.out.println("You have connected to the server");
+		
 		while(true) {
 //		objectOutputStream.writeObject(this);
 
+		// Console Scanner
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
+		// Read information from lobby that you are now connected and what to do next
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 		
+		// Reads the next int input from the user
 		int ready = input.nextInt();
-		objectOutputStream.writeInt(ready);
+		objectOutputStream.writeInt(ready); // Send the input to the lobby
 		
+		// Reads input from the lobby, whether all players are connected or not
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 
