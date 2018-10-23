@@ -1,35 +1,25 @@
-
-	import java.io.*;
-	import java.lang.Thread;
+	
 	import java.util.List;
-	import java.util.Scanner;
 	import java.util.ArrayList;
-	import java.util.InputMismatchException;
 	 
 	public class Game {
-	 
+	    Player newPlayer;
 	    public List<Player> listOfPlayers = new ArrayList<Player>();
-	   
-	    // public boolean connected = true;
-	    private int scoreToWin = 10;
-	    public Dice dice;
+	 
+	    int scoreToWin;
 	 
 	    public Game(int scoreToWin) {
 	        this.scoreToWin = scoreToWin;
-	    }
+	    } // checked
 	 
-	    String addPlayers(int i) {
-	        Player newPlayer = new Player("Player no " + i);
+	    public String addPlayers(int i) {
+	        newPlayer = new Player((i + 1));
 	        listOfPlayers.add(newPlayer);
-	        return "" + newPlayer.getName() + ". Their total score: " + newPlayer.getTotalScore();
-	    }
-	   
-	    public List<Player> getList() {
-	        return listOfPlayers;
-	    }
+	        return "" + newPlayer.getName();
+	    } // checked
 	 
 	    public String toString() {
-	        return "Note from Game class: There are " + listOfPlayers.size() + " players. ";   
-	    }
+	        return "" + newPlayer.getName() + "'s total score: " + newPlayer.getTotalScore(); // checked
+	 
+	    } // checked
 	}
-	

@@ -1,6 +1,4 @@
-	import java.util.ArrayList;
-	import java.util.List;
-	 
+	
 	// Class for testing Dice class
 	 
 	public class Test {
@@ -11,22 +9,18 @@
 	    public static void main(String[] args) {
 	        // TODO Auto-generated method stub
 	 
-	        System.out.println("Note from Test class: " + players + " players have entered the game");
+	        System.out.println("note from TEST " + players + " players have entered the game");
 	 
-	        // For -loop: Making multiple dice. Will make as many dice as there are players.
-	        Game game = new Game(scoreToWin);
-	        Dice dice = new Dice(players);
+	        Game game = new Game(scoreToWin); // checked
+	        Dice dice = new Dice(players); // checked
 	 
-	        for (int i = 1; i <= players; i++) {
-	            System.out.println(game.addPlayers(i) + " rolled a " + dice.toString());
+	        for (int i = 0; i < players; i++) { // checked for roll()
+	            dice.roll(); // checked
+	            System.out.println("from for-loop in TEST. Player no. " + game.addPlayers(i) + " rolled a "
+	                    + dice.getRollsFromList(i) + ". Player" + game.toString()); // checked
+	 
+	            // TODO: COMPARE RESULTS FROM listWithRolls - and then add score!
+	 
 	        }
-	        System.out.println(game.toString());
 	    }
 	}
-	 
-	/*
-	 * for(i = 1; i < game.getList().size(); i++) {
-	 *
-	 * // Note the initial value of j for(int j = i + 1; j < game.getList().size();
-	 * j++) { if (i != j) { System.out.println("Linnea"); } }
-	 */

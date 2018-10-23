@@ -1,15 +1,15 @@
 	
-	public class Player {
+	public class Player { // checked
 	 
-	    private String name;
-	    private int totalScore = 0;
+	    private int playerNumber;
+	    private int totalScore = 100;
 	 
-	    Player(String name) {
-	        this.name = name;
+	    Player(int playerNumber) {
+	        this.playerNumber = playerNumber;
 	    }
 	 
-	    String getName() {
-	        return name;
+	    public int getName() {
+	        return playerNumber;
 	    }
 	 
 	    void changeScore(int roundScore) {
