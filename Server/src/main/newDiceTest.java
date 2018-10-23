@@ -1,3 +1,4 @@
+package main;
 // This class was created since Lobby was not able to access the other Dice Class, as it was in another folder.
 // This one seems to be working.
 
