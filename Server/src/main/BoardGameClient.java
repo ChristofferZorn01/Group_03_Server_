@@ -47,6 +47,7 @@ public class BoardGameClient implements Serializable {
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 		ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 
+		while(true) {
 		objectOutputStream.writeObject(this);
 
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
@@ -60,7 +61,7 @@ public class BoardGameClient implements Serializable {
 		
 		System.out.println(objectInputStream.readObject());
 
-		while (true) {
+
 
 			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
 		}
