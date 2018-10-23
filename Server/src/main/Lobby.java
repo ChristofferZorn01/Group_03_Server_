@@ -1,6 +1,8 @@
 package main;
 
-	import java.io.IOException;
+	import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 	import java.io.ObjectInputStream;
 	import java.io.ObjectOutputStream;
 	import java.io.Serializable;
@@ -20,11 +22,17 @@ package main;
 		public static final int MAX_USERS = 5000;
 		public static final String HOST = "localhost";
 		public String name = "Lobby Server";
+		static DataInputStream in;
+		static DataOutputStream out;
 		public int clientNumber;
 		public int playerNumberReady = 0;
 		public boolean allPlayersReady = false;
 		public boolean OddurIsNice = false;
-		
+		public String joinedServer = "You joined the server.";
+		public String waiting = "Waiting...";
+		public String letsGo = "LETS GO";
+		public String youArePlayerNumber = "You are player number: ";
+		public String pressIfReady = "Press '1' if you are ready";
 		public static void main(String[] args) throws IOException, ClassNotFoundException {
 			Lobby s = new Lobby();
 			s.runServer();
@@ -75,62 +83,79 @@ package main;
 				try {		
 					
 					// This method is for when the client want's to connect to the lobby
-					ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-					ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+					DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
+					DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
+					System.out.println(socket);
 					System.out.println("User 1 is now connected");
+
 					
-					ObjectInputStream objectInputStream2 = new ObjectInputStream(socket2.getInputStream());
-					ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(socket2.getOutputStream());
+					DataInputStream objectInputStream2 = new DataInputStream(socket2.getInputStream());
+					DataOutputStream objectOutputStream2 = new DataOutputStream(socket2.getOutputStream());
+					System.out.println(socket2);
 					System.out.println("User 2 is now connected");
-					BoardGameClient joined = (BoardGameClient) objectInputStream.readObject();
-					System.out.println(joined.name + " is now connected.");
-					while(true) {
-					objectOutputStream.writeObject("You joined the server.");
-					objectOutputStream.writeObject("You are player Number " + 1);
+//					BoardGameClient joined = (BoardGameClient) objectInputStream.readObject();
+//					System.out.println(joined.name + " is now connected.");
+//					while(true) {
+					objectOutputStream.writeUTF(joinedServer);
+					objectOutputStream.writeUTF(youArePlayerNumber + 1);
 					
-					objectOutputStream.writeObject("Press '1' if you are ready");
+					objectOutputStream.writeUTF(pressIfReady);
 					
-					objectOutputStream2.writeObject("You joined the server.");
-					objectOutputStream2.writeObject("You are player Number " + 2);
+					objectOutputStream2.writeUTF(joinedServer);
+					objectOutputStream2.writeUTF(youArePlayerNumber + 2);
 					
-					objectOutputStream2.writeObject("Press '1' if you are ready");
+					objectOutputStream2.writeUTF(pressIfReady);
 					
-					if(objectInputStream.readObject().equals(1)) {
+					if(objectInputStream.readInt() == 1) {
+						System.out.println("Player number before increment from user 1: " + playerNumberReady);
 						playerNumberReady++;
-					}
-					
-					if(objectInputStream2.readObject().equals(1)) {
-						playerNumberReady++;
-					}
-					
-						if(playerNumberReady != 2) {
-							allPlayersReady = false;
-						} else {
-							allPlayersReady = true;
+						System.out.println("Player number after increment from user 1: " + playerNumberReady);
+						allPlayersReady = checkIfAllPlayersReady();
+						if(allPlayersReady == false) {
+							objectOutputStream.writeUTF(waiting);
 						}
-					
-					
-					
-						if (allPlayersReady == false) {
-							objectOutputStream.writeObject("Waiting...");
-							objectOutputStream2.writeObject("Waiting...");
-					} 
-					
+					}
+
+					if(objectInputStream2.readInt() == 1) {
+						System.out.println("Player number before increment from user 2: " + playerNumberReady);
+						playerNumberReady++;
+						System.out.println("Player number after increment from user 2: " + playerNumberReady);
+						allPlayersReady = checkIfAllPlayersReady();
 						if (allPlayersReady == true) {
-						objectOutputStream.writeObject("Lets GO");
-						objectOutputStream2.writeObject("Lets GO");
-					}							
+							objectOutputStream.writeUTF(letsGo);
+							objectOutputStream2.writeUTF(letsGo);
+					}					
+					}
+					
+//					if(allPlayersReady == false) {
+//						objectOutputStream.writeObject("Waiting...");
+//						objectOutputStream2.writeObject("Waiting...");
+//					}
+//
+//					
+//					if (allPlayersReady == true) {
+//							objectOutputStream.writeObject("Lets GO");
+//							objectOutputStream2.writeObject("Lets GO");
+//					}							
 				
 					
 //					while (true) {
 //						System.out.println(objectInputStream.readObject());
 //					}
-					}
-					} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
+//					}
+				}catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+			
+			public boolean checkIfAllPlayersReady() {
+				
+				if(playerNumberReady != 2) {
+					return false;
+				}  else {
+					return true;
+				}
+			
 			}
 		}
 	}

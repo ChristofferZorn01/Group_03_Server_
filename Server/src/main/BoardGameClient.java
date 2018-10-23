@@ -1,6 +1,8 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -19,6 +21,8 @@ public class BoardGameClient implements Serializable {
 	private static final long serialVersionUID = -6224L;
 	public String name = "User";
 	private transient Socket socket;
+	static DataInputStream in;
+	static DataOutputStream out;
 	public transient Scanner input = new Scanner(System.in);	
 
 	public static void main(String[] args) {
@@ -44,26 +48,26 @@ public class BoardGameClient implements Serializable {
 	public void joinServer() throws UnknownHostException, IOException, ClassNotFoundException {
 
 		socket = new Socket(Lobby.HOST, Lobby.PORT);
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-		ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-
+		DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
+		DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
+		System.out.println("You have connected to the server");
 		while(true) {
-		objectOutputStream.writeObject(this);
+//		objectOutputStream.writeObject(this);
 
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
-		System.out.println(objectInputStream.readObject());
-		System.out.println(objectInputStream.readObject());
-		System.out.println(objectInputStream.readObject());
+		System.out.println(objectInputStream.readUTF());
+		System.out.println(objectInputStream.readUTF());
+		System.out.println(objectInputStream.readUTF());
 		
 		int ready = input.nextInt();
-		objectOutputStream.writeObject(ready);
+		objectOutputStream.writeInt(ready);
 		
-		System.out.println(objectInputStream.readObject());
+		System.out.println(objectInputStream.readUTF());
+		System.out.println(objectInputStream.readUTF());
 
 
-
-			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
+//			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
 		}
 	}
 }
