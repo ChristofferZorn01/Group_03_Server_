@@ -15,7 +15,7 @@
 	 * The Class Server.
 	 */
 	public class Lobby implements Serializable {
-		private static final long serialVersionUID = -216506295654L;
+		private static final long serialVersionUID = -21654L;
 		public static final int PORT = 4445;
 		public static final int MAX_USERS = 5000;
 		public static final String HOST = "localhost";
@@ -51,7 +51,7 @@
 					// This method is for when the client want's to connect to the lobby
 					ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 					ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-					Client joined = (Client) objectInputStream.readObject();
+					BoardGameClient joined = (BoardGameClient) objectInputStream.readObject();
 					System.out.println(joined.name + " is now connected.");
 					objectOutputStream.writeObject("You joined the server.");
 					while (true) {
