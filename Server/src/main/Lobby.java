@@ -23,6 +23,7 @@
 		public int clientNumber;
 		public int playerNumberReady;
 		public boolean allPlayersReady = false;
+		public boolean OddurIsNice = false;
 		
 		public static void main(String[] args) throws IOException, ClassNotFoundException {
 			Lobby s = new Lobby();
