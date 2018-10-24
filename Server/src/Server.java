@@ -1,63 +1,13 @@
-package master;
 
-import java.net.*;
+/*import java.net.*;
 import java.io.*;
-import java.util.*;
+import java.util.*;*/
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
 
-import main.Lobby;
-
-public class MainServer {
-
-	public static final int PORT = 4444;
-	public static final String HOST = "localhost";
-	public ArrayList<Lobby> serverList = new ArrayList<>();
-
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
-
-		new MainServer().runServer();
-	}
-
-	public void runServer() throws IOException, ClassNotFoundException {
-		
-		// Creating the server
-
-		ServerSocket serverSocket = new ServerSocket(PORT);
-		System.out.println("Main Server initiated.");
-
-		while (true) {
-
-			Socket socket = serverSocket.accept();
-
-			try {
-				
-				// Establishing the connection to the Lobby server and then adding it to its list
-				ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-				objectOutputStream.writeObject("Server created successfully.");
-				Lobby s = (Lobby) objectInputStream.readObject();
-				this.serverList.add(s);
-				System.out.println("Server \"" + s.name + "\" added to game list.");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-}
-
-/*
 public class Server {
 	static java.util.Date serverCreate;
 	private static int maxClients = 0;
@@ -221,12 +171,63 @@ class HandleAClient implements Runnable {
 
 				// recive answer from the client - what did it roll?
 //				int diceRoll = in.readInt();
-//
+				
+				//
+//				This is different than the whole 'Roll highest, move one space ahead' plan
 //				// Add the diceRoll to the clients existing score
 //				int clientScore = 0 + diceRoll;
 //
 //				// Send the clientScore back to the client
 //				out.writeInt(clientScore);
+				
+				/*Theorectical
+				 * For Checking after each round
+				 * int playersRolled = 0;//Number of players that have rolled this round.
+				 * int allPlayersRolled = number of players; // this int is for checking that all players have have rolled
+				 * 
+				 * [When an awnser is recieved] 
+				 * playersRolled++;//1 is added to the int
+				 * 
+				 * [When all players have rolled in 1 round]
+				 *if (playersRolled == allPlayersRolled)
+				 *{
+				 *	diceCheck();//We run the comparison Part of the code
+				 *	playersRolled = 0; and reset the counter 
+				 *} 
+				 *
+				 *diceCheck()
+				 *{
+				 *	for(i = diceSize; i>=1; i--)//We count down from the maxium dice roll possible in the game
+				 *	{
+				 *		int count = 0;//to count how many players have this roll
+				 *		[Go through each players dice roll]//Maybe a second 'if' statement? One for going through the diceRoll, second for going through the players? 
+				 *		if([players diceRoll] == i)//said player have the current roll checked for
+				 *			{
+				 *				count++;//we add to the count
+				 *			}
+				 *		//Afterwards, we check if there is any player with this dieRool, and if so, how many
+				 *		if(count == 1)//Only one with the maximum diceRoll
+				 *		{
+				 *			[Said player gets +1 point]
+				 *			[All clients gets their diceReady Boolean set to 'true']
+				 *			break;//we break completely out of the diceCheck class
+				 *		}
+				 *		else if(count < 1)
+				 *		{
+				 *			[Said players gets -1 point]
+				 *			[All clients gets their diceReady Boolean set to 'true']
+				 *			break;//we break completely out of the diceCheck class
+				 *		}
+				 *
+				 *	}
+				 *}
+				 * THoughts: we need a counter of the player's diceroll, so that when they all have rolled in one round, the server 
+				 * 	if(clientScore [OF ANY USER] >= maxScore)//When any one of the players
+				 * 	{
+				 * 		[Winning Player gets sent 'winCondition = true;']
+				 * 		[All Players gets sent 'gameEnd = true;']
+				 * 	}
+				 * */
 
 			}
 		}
@@ -236,76 +237,3 @@ class HandleAClient implements Runnable {
 		}
 	}
 }
-
-*/
-
-//=========================================================================================
-//recive answer from the client - what did it roll?
-//int diceRoll = in.readInt();
-//
-////Add the diceRoll to the clients existing score
-//int clientScore = 0 + diceRoll;
-//
-////Send the clientScore back to the client
-//out.writeInt(clientScore);
-
-
-// recive answer from the client - what did it roll?
-//int diceRoll = in.readInt();
-
-//
-//This is different than the whole 'Roll highest, move one space ahead' plan
-//// Add the diceRoll to the clients existing score
-//int clientScore = 0 + diceRoll;
-//
-//// Send the clientScore back to the client
-//out.writeInt(clientScore);
-
-/*Theorectical
- * For Checking after each round
- * int playersRolled = 0;//Number of players that have rolled this round.
- * int allPlayersRolled = number of players; // this int is for checking that all players have have rolled
- * 
- * [When an awnser is recieved] 
- * playersRolled++;//1 is added to the int
- * 
- * [When all players have rolled in 1 round]
- *if (playersRolled == allPlayersRolled)
- *{
- *	diceCheck();//We run the comparison Part of the code
- *	playersRolled = 0; and reset the counter 
- *} 
- *
- *diceCheck()
- *{
- *	for(i = diceSize; i>=1; i--)//We count down from the maxium dice roll possible in the game
- *	{
- *		int count = 0;//to count how many players have this roll
- *		[Go through each players dice roll]//Maybe a second 'if' statement? One for going through the diceRoll, second for going through the players? 
- *		if([players diceRoll] == i)//said player have the current roll checked for
- *			{
- *				count++;//we add to the count
- *			}
- *		//Afterwards, we check if there is any player with this dieRool, and if so, how many
- *		if(count == 1)//Only one with the maximum diceRoll
- *		{
- *			[Said player gets +1 point]
- *			[All clients gets their diceReady Boolean set to 'true']
- *			break;//we break completely out of the diceCheck class
- *		}
- *		else if(count < 1)
- *		{
- *			[Said players gets -1 point]
- *			[All clients gets their diceReady Boolean set to 'true']
- *			break;//we break completely out of the diceCheck class
- *		}
- *
- *	}
- *}
- * THoughts: we need a counter of the player's diceroll, so that when they all have rolled in one round, the server 
- * 	if(clientScore [OF ANY USER] >= maxScore)//When any one of the players
- * 	{
- * 		[Winning Player gets sent 'winCondition = true;']
- * 		[All Players gets sent 'gameEnd = true;']
- * 	}
- * */

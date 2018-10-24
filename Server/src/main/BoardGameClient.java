@@ -17,7 +17,7 @@ import master.MainServer;
 
 public class BoardGameClient implements Serializable {
 	
-	private int playerName;
+	private int playerCount;
 	private static final long serialVersionUID = -6224L;
 	public String name = "User";
 	private transient Socket socket;
@@ -29,10 +29,10 @@ public class BoardGameClient implements Serializable {
 
 		BoardGameClient c = new BoardGameClient();
 
-		if (args.length > 0) {
+		//if (args.length > 0) {
 
-			c.name = args[0];
-		}
+			//c.name = args[0];
+		// }
 
 		try {
 
@@ -47,35 +47,36 @@ public class BoardGameClient implements Serializable {
 
 	public void joinServer() throws UnknownHostException, IOException, ClassNotFoundException {
 
-		// Connect to the lobby
+		
+		
+		try {
 		socket = new Socket(Lobby.HOST, Lobby.PORT);
 		DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
 		DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
-		System.out.println("You have connected to the server");
-		
+		System.out.println("Trying to establish connection...");
 		while(true) {
 //		objectOutputStream.writeObject(this);
-
-		// Console Scanner
+		System.out.println("You have connected to the Lobby");
+		System.out.println("Please wait for more players... Missing " + objectInputStream.readInt() + " players");
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
-		// Read information from lobby that you are now connected and what to do next
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 		
-		// Reads the next int input from the user
 		int ready = input.nextInt();
-		objectOutputStream.writeInt(ready); // Send the input to the lobby
+		objectOutputStream.writeInt(ready);
 		
-		// Reads input from the lobby, whether all players are connected or not
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 
-
-//			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
 		}
-	}
+//			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		}
 }
 		/*
 		boolean diceReady = false;//this boolean is to ensure that the dice can only be rolled in a game, and only once per round
