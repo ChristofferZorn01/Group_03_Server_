@@ -26,6 +26,7 @@ public class Test {
 
 		// TODO: Compare and set scores
 
+		outerloop:
 		for (int i = numberOfPlayers - 1; i >= 0; i--) {
 			int com1 = dice.listWithRolls.get(i);
 			for (int j = i - 1; j >= 0; j--) {
@@ -35,24 +36,30 @@ public class Test {
 					if (com1 == Collections.max(dice.listWithRolls) || com2 == Collections.max(dice.listWithRolls)) {
 						System.out.println(game.listOfPlayers.get(i).getName() + " and "
 								+ game.listOfPlayers.get(j).getName() + " got max. Subtract one point from each");
-						break;
-					}
+						break outerloop;
+					} 
 				}
-				if (com1 != com2) {
+				
+				
+				
+				
+				
+				
+				else if (com1 != com2) {
 					if (com1 == Collections.max(dice.listWithRolls)) {
 						System.out.println(game.listOfPlayers.get(i).getName() + " rolled the highest. Gets 1 point");
-						break;
-					}
+						break outerloop;
+					} 
 					if (com2 == Collections.max(dice.listWithRolls)) {
 						System.out.println(game.listOfPlayers.get(j).getName() + " rolled the highest. Gets 1 point");
-						break;
-					}
-					break;
-				}
-				break;
+						
+					} break outerloop;
+					
+				} 
+				
 
 			}
-			break;
+			
 
 		}
 
