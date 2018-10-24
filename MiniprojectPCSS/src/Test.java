@@ -35,12 +35,26 @@ public class Test {
 					if (com1 == Collections.max(dice.listWithRolls) || com2 == Collections.max(dice.listWithRolls)) {
 						System.out.println(game.listOfPlayers.get(i).getName() + " and "
 								+ game.listOfPlayers.get(j).getName() + " got max. Subtract one point from each");
+						break;
 					}
-
 				}
+				if (com1 != com2) {
+					if (com1 == Collections.max(dice.listWithRolls)) {
+						System.out.println(game.listOfPlayers.get(i).getName() + " rolled the highest. Gets 1 point");
+						break;
+					}
+					if (com2 == Collections.max(dice.listWithRolls)) {
+						System.out.println(game.listOfPlayers.get(j).getName() + " rolled the highest. Gets 1 point");
+						break;
+					}
+					break;
+				}
+				break;
 
 			}
+			break;
 
 		}
+
 	}
 }
