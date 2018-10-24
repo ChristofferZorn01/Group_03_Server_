@@ -20,35 +20,39 @@ public class Test {
 					+ ". Total score: " + game.listOfPlayers.get(i).getTotalScore());
 
 		}
-		
+
 		Object obj = Collections.max(dice.listWithRolls);
 		System.out.println(obj);
-		
-		
 
 		// TODO: Compare and set scores
-	/*	if (game.listOfPlayers.size() == numberOfPlayers) {
+		if (game.listOfPlayers.size() == numberOfPlayers) {
 			for (int i = numberOfPlayers - 1; i >= 0; i--) {
-				if (dice.listWithRolls.get(i) != dice.getDiceSize()) {
-					for (int j = i - 1; j >= 0; j--) {
+				int com1 = dice.listWithRolls.get(i);
+				for (int j = i - 1; j >= 0; j--) {
+					int com2 = dice.listWithRolls.get(j);
 
-						System.out.println("same");
-
-						if (dice.listWithRolls.get(i) < dice.listWithRolls.get(j)) {
-							System.out.println("break?");
+					if (com1 != com2) {
+					if (com1 == Collections.max(dice.listWithRolls)) {
+					
+							System.out.println("same 1");
 						}
-						if (dice.listWithRolls.get(i) > dice.listWithRolls.get(j)) {
-							System.out.println("den anden vej");
-						}
-
-						else if (dice.listWithRolls.get(i) == dice.listWithRolls.get(j)) {
-							System.out.println("same");
-
-						}
-
+					 if (com2 == Collections.max(dice.listWithRolls){
+						 System.out.println("same 2");
+					 }
+						
+						
 					}
+										
+					else if (com1 == Collections.max(dice.listWithRolls) || com2 == Collections.max(dice.listWithRolls)) {
+						System.out.println(game.listOfPlayers.get(i).getName() + " got max");
+						break;
+					}
+					break;
+
 				}
+				break;
+				// }
 			}
-		} */ 
+		}
 	}
 }
