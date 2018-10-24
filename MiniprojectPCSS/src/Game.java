@@ -7,9 +7,12 @@
 	    public List<Player> listOfPlayers = new ArrayList<Player>();
 	 
 	    int scoreToWin;
+	    int numberOfPlayers; 
 	 
-	    public Game(int scoreToWin) {
+	    public Game(int numberOfPlayers, int scoreToWin) {
 	        this.scoreToWin = scoreToWin;
+	        this.numberOfPlayers = numberOfPlayers; 
+	        
 	    } // checked
 	 
 	    public String addPlayers(int i) {
