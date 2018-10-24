@@ -2,7 +2,7 @@
 	// Class for testing Dice class
 	 
 	public class Test {
-	 
+	 // 
 	    public static int players = 3;
 	    public static int scoreToWin = 10;
 	 
