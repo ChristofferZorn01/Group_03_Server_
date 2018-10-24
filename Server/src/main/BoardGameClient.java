@@ -29,10 +29,10 @@ public class BoardGameClient implements Serializable {
 
 		BoardGameClient c = new BoardGameClient();
 
-		if (args.length > 0) {
+		//if (args.length > 0) {
 
-			c.name = args[0];
-		}
+			//c.name = args[0];
+		// }
 
 		try {
 
@@ -47,13 +47,16 @@ public class BoardGameClient implements Serializable {
 
 	public void joinServer() throws UnknownHostException, IOException, ClassNotFoundException {
 
+		
+		
+		try {
 		socket = new Socket(Lobby.HOST, Lobby.PORT);
 		DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
 		DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
-		System.out.println("You have connected to the server");
+		System.out.println("Trying to establish connection...");
 		while(true) {
 //		objectOutputStream.writeObject(this);
-
+		System.out.println("You have connected to the server");
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println(objectInputStream.readUTF());
@@ -66,10 +69,13 @@ public class BoardGameClient implements Serializable {
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
 
-
-//			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
 		}
-	}
+//			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		}
 }
 		/*
 		boolean diceReady = false;//this boolean is to ensure that the dice can only be rolled in a game, and only once per round
