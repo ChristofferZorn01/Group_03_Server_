@@ -2,6 +2,7 @@ package main;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -203,7 +204,10 @@ public class Lobby implements Serializable {
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
-					if (allPlayersReady == true) {
+					if (allPlayersReady != true) {
+//						objectOutputStream.writeUTF(waiting);
+						objectOutputStream2.writeUTF(waiting);
+					} else {
 						objectOutputStream.writeUTF(letsGo);
 						objectOutputStream2.writeUTF(letsGo);
 					}
@@ -214,9 +218,14 @@ public class Lobby implements Serializable {
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
-					if (allPlayersReady == true) {
+					if (allPlayersReady != true) {
+//						objectOutputStream.writeUTF(waiting);
+//						objectOutputStream2.writeUTF(waiting);
+						objectOutputStream3.writeUTF(waiting);
+					} else {
 						objectOutputStream.writeUTF(letsGo);
 						objectOutputStream2.writeUTF(letsGo);
+						objectOutputStream3.writeUTF(letsGo);
 					}
 				}
 
@@ -225,12 +234,18 @@ public class Lobby implements Serializable {
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
-					if (allPlayersReady == true) {
+					if (allPlayersReady != true) {
+						objectOutputStream.writeUTF(waiting);
+					} else { 
 						objectOutputStream.writeUTF(letsGo);
 						objectOutputStream2.writeUTF(letsGo);
+						objectOutputStream3.writeUTF(letsGo);
+						objectOutputStream3.writeUTF(letsGo);
 					}
 				}
 
+			} catch (EOFException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
