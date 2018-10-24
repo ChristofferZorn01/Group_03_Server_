@@ -37,3 +37,4 @@ Use Instructions:
 
 8: 5-7 will repeat until a player reaches the max score (10 points) in the game, where the Server will tell all Players that the game is over, and tell the winning player that they won  
 
+COMMIT TEST
