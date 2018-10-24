@@ -1,4 +1,4 @@
-
+import java.util.Collections;
 // Class for testing Dice class
 
 public class Test {
@@ -20,14 +20,18 @@ public class Test {
 					+ ". Total score: " + game.listOfPlayers.get(i).getTotalScore());
 
 		}
+		
+		Object obj = Collections.max(dice.listWithRolls);
+		System.out.println(obj);
+		
+		
 
-		
-		
 		// TODO: Compare and set scores
-		if (game.listOfPlayers.size() == numberOfPlayers) {
+	/*	if (game.listOfPlayers.size() == numberOfPlayers) {
 			for (int i = numberOfPlayers - 1; i >= 0; i--) {
-				for (int j = i - 1; j >= 0; j--) {
-					if (dice.listWithRolls.get(i) != dice.listWithRolls.get(j)) {
+				if (dice.listWithRolls.get(i) != dice.getDiceSize()) {
+					for (int j = i - 1; j >= 0; j--) {
+
 						System.out.println("same");
 
 						if (dice.listWithRolls.get(i) < dice.listWithRolls.get(j)) {
@@ -36,17 +40,15 @@ public class Test {
 						if (dice.listWithRolls.get(i) > dice.listWithRolls.get(j)) {
 							System.out.println("den anden vej");
 						}
-					} 
-					else if (dice.listWithRolls.get(i) == dice.listWithRolls.get(j)) {
-						System.out.println("same");
+
+						else if (dice.listWithRolls.get(i) == dice.listWithRolls.get(j)) {
+							System.out.println("same");
+
+						}
 
 					}
-
 				}
 			}
-
-			// TODO: COMPARE RESULTS FROM listWithRolls - and then add score!
-
-		}
+		} */ 
 	}
 }
