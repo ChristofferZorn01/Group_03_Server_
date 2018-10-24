@@ -28,7 +28,7 @@ public class Lobby implements Serializable {
 	public int playerNumberReady = 0;
 	public boolean allPlayersReady = false;
 	public boolean OddurIsNice = false;
-	public String joinedServer = "You joined the Lobby.";
+	public String joinedServer = "Game Session started!";
 	public String waiting = "Waiting...";
 	public String letsGo = "LETS GO";
 	public String youArePlayerNumber = "You are player number: ";
@@ -49,20 +49,27 @@ public class Lobby implements Serializable {
 				while (morePlayersCanJoin) {
 					clientNumber++;
 					Socket socket1 = serverSocket.accept();
+					DataOutputStream objectOutputStream = new DataOutputStream(socket1.getOutputStream());
+					objectOutputStream.writeInt(MAX_USERS - clientNumber);
 					
 					System.out.println("User " + clientNumber + " is now connected");
 					clientNumber++;
 					Socket socket2 = serverSocket.accept();
+					DataOutputStream objectOutputStream1 = new DataOutputStream(socket2.getOutputStream());
+					objectOutputStream1.writeInt(MAX_USERS - clientNumber);
 					
 					System.out.println("User " + clientNumber + " is now connected");
 					clientNumber++;
 					Socket socket3 = serverSocket.accept();
-				
+					DataOutputStream objectOutputStream2 = new DataOutputStream(socket3.getOutputStream());
+					objectOutputStream2.writeInt(MAX_USERS - clientNumber);
+					
 					System.out.println("User " + clientNumber + " is now connected");
 					clientNumber++;
 					Socket socket4 = serverSocket.accept();
-					
+					DataOutputStream objectOutputStream3 = new DataOutputStream(socket4.getOutputStream());
 					System.out.println("User " + clientNumber + " is now connected");
+					objectOutputStream3.writeInt(MAX_USERS - clientNumber);
 					
 					if (clientNumber >= 4) {
 						System.out.println("Limit Reached");

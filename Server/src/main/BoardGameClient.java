@@ -17,7 +17,7 @@ import master.MainServer;
 
 public class BoardGameClient implements Serializable {
 	
-	private int playerName;
+	private int playerCount;
 	private static final long serialVersionUID = -6224L;
 	public String name = "User";
 	private transient Socket socket;
@@ -56,7 +56,8 @@ public class BoardGameClient implements Serializable {
 		System.out.println("Trying to establish connection...");
 		while(true) {
 //		objectOutputStream.writeObject(this);
-		System.out.println("You have connected to the server");
+		System.out.println("You have connected to the Lobby");
+		System.out.println("Please wait for more players... Missing " + objectInputStream.readInt() + " players");
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println(objectInputStream.readUTF());
