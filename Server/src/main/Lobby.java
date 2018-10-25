@@ -310,9 +310,44 @@ public class Lobby implements Serializable {
 			System.out.println(rollValue);
 			objectOutputStream4.writeUTF("You rollled " + rollValue);
 		}
-	}
+		
+		// Method needed for when players win 
+	    boolean PlayerWon(int positionState) {
+	        // Print message if game-over
+	        if (positionState == socket1) {
+	            System.out.println(T"'Player1' won!");
+	        } else if (positionState == socket2) {
+	            System.out.println("'Player2' won!");
+	        } else if (positionState == socket3) {
+	            System.out.println("'Player3' won!");
+	        } else if (positionState == socket4) {
+	            System.out.println("'Player4' won!");
+	        } else {
+	            return false;
+	            }
+	        }
+	    
+	    public void Move() {
+	    	// Method for moving the players 
+	    }
+	    }
 	
-
+	static class Board {
+		
+		public static int EMPTY = 0; 
+		
+		public static final int TRACK = 50;
+		
+		int currentState; // current state of the game 
+		int currentPlayer; // current player 
+		int currentTrack; // Current place in the track of the game
+		
+		public static void CreateBoard() { // !! We need to add a argument inside the constructor which holds the players 
+			for(int track = 0; track < TRACK; ++track) {
+			}
+			
+		}
+	}
 }
 
 /*
