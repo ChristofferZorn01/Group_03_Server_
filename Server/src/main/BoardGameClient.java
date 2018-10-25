@@ -52,36 +52,36 @@ public class BoardGameClient implements Serializable {
 		
 		try {
 		socket = new Socket(Lobby.HOST, Lobby.PORT);
-		DataOutputStream objectOutputStream = new DataOutputStream(socket.getOutputStream());
-		DataInputStream objectInputStream = new DataInputStream(socket.getInputStream());
+		DataOutputStream outputToServer = new DataOutputStream(socket.getOutputStream());
+		DataInputStream inputFromServer = new DataInputStream(socket.getInputStream());
 		System.out.println("Trying to establish connection...");
 		while(true) {
 //		objectOutputStream.writeObject(this);
 		System.out.println("You have connected to the Lobby");
-		System.out.println("Please wait for more players... Missing " + objectInputStream.readInt() + " players");
+		System.out.println("Please wait for more players... Missing " + inputFromServer.readInt() + " players");
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
-		System.out.println(objectInputStream.readUTF());
-		System.out.println(objectInputStream.readUTF());
-		System.out.println(objectInputStream.readUTF());
+		System.out.println(inputFromServer.readUTF());
+		System.out.println(inputFromServer.readUTF());
+		System.out.println(inputFromServer.readUTF());
 		
 		int ready = input.nextInt();
-		objectOutputStream.writeInt(ready);
+		outputToServer.writeInt(ready);
 		
-		System.out.println(objectInputStream.readUTF());
-		System.out.println(objectInputStream.readUTF());
+		System.out.println(inputFromServer.readUTF());
+		System.out.println(inputFromServer.readUTF());
 		
 		// Receive a bool so the client stays inside the game while loop
-		gameStarted = objectInputStream.readBoolean();
+		gameStarted = inputFromServer.readBoolean();
 		
 		while(gameStarted) {
 		// Receive instructions to roll the dice
-		System.out.println(objectInputStream.readUTF());
+		System.out.println(inputFromServer.readUTF());
 		
 		String roll = input.next();
-		objectOutputStream.writeChars(roll);
+		outputToServer.writeChars(roll);
 		
-		System.out.println(objectInputStream.readUTF());
+		System.out.println(inputFromServer.readUTF());
 		
 		
 

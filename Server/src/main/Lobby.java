@@ -147,84 +147,84 @@ public class Lobby implements Serializable {
 		}
 		
 		// Declare the input and output streams
-		DataInputStream objectInputStream;
-		DataOutputStream objectOutputStream;
-		DataInputStream objectInputStream2;
-		DataOutputStream objectOutputStream2;
-		DataInputStream objectInputStream3;
-		DataOutputStream objectOutputStream3;
-		DataInputStream objectInputStream4;
-		DataOutputStream objectOutputStream4;
+		DataInputStream inputClient1;
+		DataOutputStream outputClient1;
+		DataInputStream inputClient2;
+		DataOutputStream outputClient2;
+		DataInputStream inputClient3;
+		DataOutputStream outputClient3;
+		DataInputStream inputClient4;
+		DataOutputStream outputClient4;
 		
 		public void run() {
 			try {
 
 				// This method is for when the client want's to connect to the lobby
-				objectInputStream = new DataInputStream(socket1.getInputStream());
-				objectOutputStream = new DataOutputStream(socket1.getOutputStream());
+				inputClient1 = new DataInputStream(socket1.getInputStream());
+				outputClient1 = new DataOutputStream(socket1.getOutputStream());
 				System.out.println(socket1);
 				System.out.println("User 1 is now connected");
 
-				objectOutputStream.writeUTF(joinedServer);
-				objectOutputStream.writeUTF(youArePlayerNumber + 1);
+				outputClient1.writeUTF(joinedServer);
+				outputClient1.writeUTF(youArePlayerNumber + 1);
 
-				objectOutputStream.writeUTF(pressIfReady);
+				outputClient1.writeUTF(pressIfReady);
 
-				objectInputStream2 = new DataInputStream(socket2.getInputStream());
-				objectOutputStream2 = new DataOutputStream(socket2.getOutputStream());
+				inputClient2 = new DataInputStream(socket2.getInputStream());
+				outputClient2 = new DataOutputStream(socket2.getOutputStream());
 				System.out.println(socket2);
 				System.out.println("User 2 is now connected");
 
-				objectOutputStream2.writeUTF(joinedServer);
-				objectOutputStream2.writeUTF(youArePlayerNumber + 2);
+				outputClient2.writeUTF(joinedServer);
+				outputClient2.writeUTF(youArePlayerNumber + 2);
 
-				objectOutputStream2.writeUTF(pressIfReady);
+				outputClient2.writeUTF(pressIfReady);
 
-				objectInputStream3 = new DataInputStream(socket3.getInputStream());
-				objectOutputStream3 = new DataOutputStream(socket3.getOutputStream());
+				inputClient3 = new DataInputStream(socket3.getInputStream());
+				outputClient3 = new DataOutputStream(socket3.getOutputStream());
 				System.out.println(socket2);
 				System.out.println("User 3 is now connected");
 
-				objectOutputStream3.writeUTF(joinedServer);
-				objectOutputStream3.writeUTF(youArePlayerNumber + 3);
+				outputClient3.writeUTF(joinedServer);
+				outputClient3.writeUTF(youArePlayerNumber + 3);
 
-				objectOutputStream3.writeUTF(pressIfReady);
+				outputClient3.writeUTF(pressIfReady);
 
-				objectInputStream4 = new DataInputStream(socket4.getInputStream());
-				objectOutputStream4 = new DataOutputStream(socket4.getOutputStream());
+				inputClient4 = new DataInputStream(socket4.getInputStream());
+				outputClient4 = new DataOutputStream(socket4.getOutputStream());
 				System.out.println(socket2);
 				System.out.println("User 4 is now connected");
 
-				objectOutputStream4.writeUTF(joinedServer);
-				objectOutputStream4.writeUTF(youArePlayerNumber + 4);
+				outputClient4.writeUTF(joinedServer);
+				outputClient4.writeUTF(youArePlayerNumber + 4);
 
-				objectOutputStream4.writeUTF(pressIfReady);
+				outputClient4.writeUTF(pressIfReady);
 
-				if (objectInputStream.readInt() == 1) {
+				if (inputClient1.readInt() == 1) {
 					System.out.println("Player number before increment from user 1: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 1: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
 					if (allPlayersReady == false) {
-						objectOutputStream.writeUTF(waiting);
+						outputClient1.writeUTF(waiting);
 					}
 				}
 
-				if (objectInputStream2.readInt() == 1) {
+				if (inputClient2.readInt() == 1) {
 					System.out.println("Player number before increment from user 2: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
 					if (allPlayersReady != true) {
 //						objectOutputStream.writeUTF(waiting);
-						objectOutputStream2.writeUTF(waiting);
+						outputClient2.writeUTF(waiting);
 					} else {
-						objectOutputStream.writeUTF(letsGo);
-						objectOutputStream2.writeUTF(letsGo);
+						outputClient1.writeUTF(letsGo);
+						outputClient2.writeUTF(letsGo);
 					}
 				}
 
-				if (objectInputStream3.readInt() == 1) {
+				if (inputClient3.readInt() == 1) {
 					System.out.println("Player number before increment from user 2: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
@@ -232,42 +232,39 @@ public class Lobby implements Serializable {
 					if (allPlayersReady != true) {
 //						objectOutputStream.writeUTF(waiting);
 //						objectOutputStream2.writeUTF(waiting);
-						objectOutputStream3.writeUTF(waiting);
+						outputClient3.writeUTF(waiting);
 					} else {
-						objectOutputStream.writeUTF(letsGo);
-						objectOutputStream2.writeUTF(letsGo);
-						objectOutputStream3.writeUTF(letsGo);
+						outputClient1.writeUTF(letsGo);
+						outputClient2.writeUTF(letsGo);
+						outputClient3.writeUTF(letsGo);
 					}
 				}
 
-				if (objectInputStream4.readInt() == 1) {
+				if (inputClient4.readInt() == 1) {
 					System.out.println("Player number before increment from user 2: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
 					if (allPlayersReady != true) {
-						objectOutputStream.writeUTF(waiting);
+						outputClient1.writeUTF(waiting);
 					} else { 
-						objectOutputStream.writeUTF(letsGo);
-						objectOutputStream2.writeUTF(letsGo);
-						objectOutputStream3.writeUTF(letsGo);
-						objectOutputStream4.writeUTF(waiting);
-						objectOutputStream4.writeUTF(letsGo);
+						outputClient1.writeUTF(letsGo);
+						outputClient2.writeUTF(letsGo);
+						outputClient3.writeUTF(letsGo);
+						outputClient4.writeUTF(waiting);
+						outputClient4.writeUTF(letsGo);
 					}
 				}
 
 				// Send a bool to the client so that they stay inside a Game while loop
-				objectOutputStream.writeBoolean(true);
-				objectOutputStream2.writeBoolean(true);
-				objectOutputStream3.writeBoolean(true);
-				objectOutputStream4.writeBoolean(true);
+				outputClient1.writeBoolean(true);
+				outputClient2.writeBoolean(true);
+				outputClient3.writeBoolean(true);
+				outputClient4.writeBoolean(true);
 				
 			while(allPlayersReady) {
 				
 				rollTheDice();
-				
-
-				
 
 				
 			}
@@ -288,27 +285,27 @@ public class Lobby implements Serializable {
 
 		}
 		public void rollTheDice() throws IOException {
-			objectOutputStream.writeUTF("Press 'r' to roll the dice");
-			objectOutputStream2.writeUTF("Press 'r' to roll the dice");
-			objectOutputStream3.writeUTF("Press 'r' to roll the dice");
-			objectOutputStream4.writeUTF("Press 'r' to roll the dice");
+			outputClient1.writeUTF("Press 'r' to roll the dice");
+			outputClient2.writeUTF("Press 'r' to roll the dice");
+			outputClient3.writeUTF("Press 'r' to roll the dice");
+			outputClient4.writeUTF("Press 'r' to roll the dice");
 			
 			Random rand = new Random();
-			char rollValue = objectInputStream.readChar();
+			char rollValue = inputClient1.readChar();
 			System.out.println(rollValue);
-			objectOutputStream.writeUTF("You rollled " + rand.nextInt(50) );
+			outputClient1.writeUTF("You rollled " + rand.nextInt(50) );
 			
-			rollValue = objectInputStream2.readChar();
+			rollValue = inputClient2.readChar();
 			System.out.println(rollValue);
-			objectOutputStream2.writeUTF("You rollled " + rollValue);
+			outputClient2.writeUTF("You rollled " + rand.nextInt(50));
 			
-			rollValue = objectInputStream3.readChar();
+			rollValue = inputClient3.readChar();
 			System.out.println(rollValue);
-			objectOutputStream3.writeUTF("You rollled " + rollValue);
+			outputClient3.writeUTF("You rollled " + rand.nextInt(50));
 			
-			rollValue = objectInputStream4.readChar();
+			rollValue = inputClient4.readChar();
 			System.out.println(rollValue);
-			objectOutputStream4.writeUTF("You rollled " + rollValue);
+			outputClient4.writeUTF("You rollled " + rand.nextInt(50));
 		}
 	}
 	
