@@ -284,6 +284,4 @@ public class BoardGameClient implements Serializable {
 		}
 
 */
-//AAHAHAWRGOERHJGPFDG11
-//=======
-//>>>>>>> branch 'master' of https://github.com/ChristofferZorn01/Group_03_Client.git
+
