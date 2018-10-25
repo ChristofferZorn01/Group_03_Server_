@@ -24,6 +24,7 @@ public class BoardGameClient implements Serializable {
 	static DataInputStream in;
 	static DataOutputStream out;
 	public transient Scanner input = new Scanner(System.in);	
+	public boolean gameStarted;
 
 	public static void main(String[] args) {
 
@@ -69,7 +70,22 @@ public class BoardGameClient implements Serializable {
 		
 		System.out.println(objectInputStream.readUTF());
 		System.out.println(objectInputStream.readUTF());
+		
+		// Receive a bool so the client stays inside the game while loop
+		gameStarted = objectInputStream.readBoolean();
+		
+		while(gameStarted) {
+		// Receive instructions to roll the dice
+		System.out.println(objectInputStream.readUTF());
+		
+		String roll = input.next();
+		objectOutputStream.writeChars(roll);
+		
+		System.out.println(objectInputStream.readUTF());
+		
+		
 
+		}
 		}
 //			objectOutputStream.writeObject(name + ": " + inputReader.readLine());
 		} catch (IOException ex) {
