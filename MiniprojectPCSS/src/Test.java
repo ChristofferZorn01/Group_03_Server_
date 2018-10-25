@@ -1,66 +1,97 @@
+import java.util.ArrayList;
 import java.util.Collections;
-// Class for testing Dice class
+import java.util.List;
+import java.util.Scanner;
 
 public class Test {
-	//
-	public static int numberOfPlayers = 3;
-	public static int scoreToWin = 10;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		boolean connected = true;
+		Player player;
+		List<Player> listOfPlayers = new ArrayList<Player>();
+		Dice dice;
+		int numberOfPlayers;
 
-		System.out.println(numberOfPlayers + " players have entered the game"); //
+		System.out.println("Put in number of players:");
+		numberOfPlayers = sc.nextInt();
+		dice = new Dice(numberOfPlayers);
+		System.out.println("There are " + numberOfPlayers + " players. Press '0' to roll.");
+		int num = sc.nextInt();
 
-		Game game = new Game(numberOfPlayers, scoreToWin); //
-		Dice dice = new Dice(numberOfPlayers); //
+		while (connected) {
+			if (num == 0) {
 
-		for (int i = 0; i < numberOfPlayers; i++) {
-			dice.roll();
-			System.out.println(game.listOfPlayers.get(i).getName() + " rolled a " + dice.getRollsFromList(i)
-					+ ". Total score: " + game.listOfPlayers.get(i).getTotalScore());
+				// Adding player to a list with name "Player no. 1" and so on...
+				for (int i = 0; i < numberOfPlayers; i++) {
+					player = new Player((i + 1)); // Giving player a number, which starts at 1. Starting with 0 points.
+					listOfPlayers.add(player);// Adding the new player to the list listOfPlayers
 
-		}
+					dice.roll();
 
-		Object obj = Collections.max(dice.listWithRolls);
-		System.out.println(obj);
+					System.out.println(listOfPlayers.get(i).getName() + " rolled a " + dice.getRollsFromList(i));
+				}
+			}
 
-		// TODO: Compare and set scores
+			int obj = Collections.max(dice.listWithRolls);
 
-		outerloop: if (dice.getListRollSize() == numberOfPlayers) {
-			for (int i = 0; i < numberOfPlayers; i++) {
-				int com1 = dice.listWithRolls.get(i);
-				for (int j = i + 1; j < numberOfPlayers; j++) {
-					int com2 = dice.listWithRolls.get(j);
-// THIS AREA - from here 
-					if (com1 == com2) {
-						if (com1 == Collections.max(dice.listWithRolls)
-								|| com2 == Collections.max(dice.listWithRolls)) {
-							System.out.println(game.listOfPlayers.get(i).getName() + " and "
-									+ game.listOfPlayers.get(j).getName() + " got max. Subtract one point from each");
-							break outerloop;
-						}
-					}
-// to here - WORKS 
-					// The problem is, that space 0 will be compared with 1 and 2, and then space 1 will be compared with 2. We need for if 2 is equals to or max. I'm going home now. Will be back around 19:00. 
-					if (com1 != com2) {
-						if (com1 == Collections.max(dice.listWithRolls)) {
-							System.out
-									.println(game.listOfPlayers.get(i).getName() + " rolled the highest. Gets 1 point");
-							break outerloop;
-						}
-						if (com2 == Collections.max(dice.listWithRolls)) {
-							System.out
-									.println(game.listOfPlayers.get(j).getName() + " rolled the highest. Gets 1 point");
-							break outerloop;
-						}
-						
-
-					}
-
+			if (num == 0 || num == 1) {
+				
+				for (int i = 0; i < numberOfPlayers; i++) {
+					dice.roll();
+					System.out.println(listOfPlayers.get(i).getName() + " rolled a " + dice.getRollsFromList(i));
 				}
 
+				outerloop: for (int i = 0; i < numberOfPlayers; i++) {
+					if (dice.getRollsFromList(i) == obj) {
+
+						for (int j = i + 1; j < numberOfPlayers; j++) {
+							if (dice.getRollsFromList(i) != dice.getRollsFromList(j) && j == (numberOfPlayers - 1)) {
+								System.out.println((i + 1) + " rullede max som den eneste. Får 1 point.");
+								listOfPlayers.get(i).addScore();
+
+							}
+
+							else if (dice.getRollsFromList(i) == dice.getRollsFromList(j)) {
+								System.out.println(
+										"Max fundet: " + obj + ". \nMinuspoint til " + listOfPlayers.get(i).getName()
+												+ " og " + listOfPlayers.get(j).getName() + " (hvis ikke total = 0.");
+								listOfPlayers.get(i).subScore();
+								listOfPlayers.get(j).subScore();
+								break outerloop;
+							}
+						}
+					}
+				} break;
+
 			}
+			System.out.print("Scoring list:\n");
+			for (int i = 0; i < numberOfPlayers; i++) {
+				System.out.print(listOfPlayers.get(i).getName() + " - total score: "
+						+ listOfPlayers.get(i).getTotalScore() + "\n");
+			}
+			System.out.println("press '1' to roll again");
+			num = sc.nextInt();
+
 		}
 
+		sc.close();
+
+		/*
+		 * if (dice.getRollsFromList(i) == obj) {
+		 * 
+		 * for (int j = i + 1; j < numberOfPlayers; j++) { if (dice.getRollsFromList(i)
+		 * != dice.getRollsFromList(j) && j == (numberOfPlayers - 1)) {
+		 * System.out.println(listOfPlayers.get(i).getName() +
+		 * " rullede max som den eneste. Får 1 point.");
+		 * listOfPlayers.get(i).addScore(); break outerloop; }
+		 * 
+		 * else if (dice.getRollsFromList(i) == dice.getRollsFromList(j)) {
+		 * System.out.println("Max fundet: " + obj + ". \nMinuspoint til " +
+		 * listOfPlayers.get(i).getName() + " og " + listOfPlayers.get(j).getName() +
+		 * "."); break outerloop; } } }
+		 */
 	}
+
 }
