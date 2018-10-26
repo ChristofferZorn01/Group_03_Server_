@@ -10,7 +10,8 @@ public class Test {
 
 		// Defining (and initializing)...
 		Scanner sc = new Scanner(System.in);
-		boolean connected = true;
+		boolean playing = false;
+		boolean creating = true;
 		Player player;
 		List<Player> listOfPlayers = new ArrayList<Player>(); // The list, which holds the objects Player
 		Dice dice;
@@ -19,17 +20,29 @@ public class Test {
 		// This is for testing the program. Using the scanner to read how many players.
 		System.out.println("Put in number of players:");
 		numberOfPlayers = sc.nextInt();
-		System.out.println("There are " + numberOfPlayers + " players. Press '0' to roll.");
-		int num = sc.nextInt();
 
-		// Adding player to a list with name "Player no. 1" and so on...
-		for (int i = 0; i < numberOfPlayers; i++) {
-			player = new Player((i + 1)); // Giving player a number, which starts at 1. Starting with 0 points.
-			listOfPlayers.add(player);// Adding the new player to the list listOfPlayers
+		while (creating) {
+			// Adding player to a list with name "Player no. 1" and so on...
+			if (numberOfPlayers > 2) {
+
+				for (int i = 0; i < numberOfPlayers; i++) {
+					player = new Player((i + 1)); // Giving player a number, which starts at 1. Starting with 0 points.
+					listOfPlayers.add(player);// Adding the new player to the list listOfPlayers
+				}
+				break;
+			} else if (numberOfPlayers <= 2) {
+				System.out.println("You have to be at least 3 players.\nPut in the number of players:");
+			}
+			numberOfPlayers = sc.nextInt();
 		}
 
+		playing = true;
+
+		System.out.println(numberOfPlayers + " players has entered the game. Press '0' to roll.");
+		int num = sc.nextInt();
+
 		// while-loop, so scanner doesn't close
-		while (connected) {
+		while (playing) {
 
 			// When pressing 0, you roll. In bottom - else: "Invalid" msg.
 			if (num == 0) {
@@ -78,7 +91,7 @@ public class Test {
 								break outerloop;
 							}
 
-						} // If it's the last player, who has max: 
+						} // If it's the last player, who has max:
 						if (i == numberOfPlayers - 1) {
 							listOfPlayers.get(i).addScore();
 							System.out.println((i + 1) + " rolled the highest value: +1 point.");
@@ -89,39 +102,27 @@ public class Test {
 
 				}
 				// Printing out the scoring sheet:
-				System.out.print("\nScoring list:\n");
+				System.out.println("\nScoring list:\n");
 				for (int i = 0; i < numberOfPlayers; i++) {
-					System.out.print(listOfPlayers.get(i).getName() + " - total score: "
-							+ listOfPlayers.get(i).getTotalScore() + "\n");
+					System.out.println(
+							listOfPlayers.get(i).getName() + " - total score: " + listOfPlayers.get(i).getTotalScore());
 				}
 
 			}
-			// If Scanner sc read something elses than '0':
+			// If Scanner sc read something else than '0':
 			else if (num != 0) {
 				System.out.println("Invalid input.");
 			}
 			// Roll again by pressing 0
-			System.out.println("Press '0' to roll");
+			System.out.println("\n\n\nPress '0' to roll");
 			num = sc.nextInt();
 
 		}
 
+		// TODO write code, where max score has been reached, and that boolean connected
+		// = false; to close Scanner sc
 		sc.close();
 
-		/*
-		 * if (dice.getRollsFromList(i) == obj) {
-		 * 
-		 * for (int j = i + 1; j < numberOfPlayers; j++) { if (dice.getRollsFromList(i)
-		 * != dice.getRollsFromList(j) && j == (numberOfPlayers - 1)) {
-		 * System.out.println(listOfPlayers.get(i).getName() +
-		 * " rullede max som den eneste. Får 1 point.");
-		 * listOfPlayers.get(i).addScore(); break outerloop; }
-		 * 
-		 * else if (dice.getRollsFromList(i) == dice.getRollsFromList(j)) {
-		 * System.out.println("Max fundet: " + obj + ". \nMinuspoint til " +
-		 * listOfPlayers.get(i).getName() + " og " + listOfPlayers.get(j).getName() +
-		 * "."); break outerloop; } } }
-		 */
 	}
 
 }
