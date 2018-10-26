@@ -1,7 +1,16 @@
 # Group_03_Server
 
+Aalborg University Medialogy Group 3 Semester 3 2018 Dice Racing Digital Board Game Server, Version XXXXXXX
+===============================
+Written 25/10/2018
 
-Hello, and welcome to the 2018 Medialogy 3 Group 3 Dice Racing Digital Board game!
+Hello, and welcome to the 2018 Medialogy 3 Group 3 Dice Racing Digital Board game! This simple game will see the players roll dice to race towards the winning score.
+
+Built in Java for the AAU Medialogy Programming MiniProject.
+
+How to install:
+
+-
 
 The rules are simple:
 
@@ -36,5 +45,3 @@ Use Instructions:
 7: When the server has recieved a result from each player, the Server will compare the results and assign scores. Afterwards, the 	players will recieve signal that the next round has begun, and that they can roll again.
 
 8: 5-7 will repeat until a player reaches the max score (10 points) in the game, where the Server will tell all Players that the game is over, and tell the winning player that they won  
-
-COMMIT TEST
