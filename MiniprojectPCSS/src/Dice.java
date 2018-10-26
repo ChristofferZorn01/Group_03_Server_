@@ -1,4 +1,6 @@
+
 package src;
+
 
 	import java.util.ArrayList;
 	import java.util.List;
@@ -17,7 +19,7 @@ package src;
 		// Constructor, that takes in the number of players
 		public Dice(int players) {
 			// There will always be one more side on the die than there are players
-			sides = players + 2;
+			sides = players *2;
 		}
 	
 		// Getting the size of the dice (how many faces).
@@ -43,4 +45,5 @@ package src;
 			return listWithRolls.size();
 		}
 	
+
 	}

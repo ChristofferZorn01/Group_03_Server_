@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-// Linnea: Right now working on getting the final winning message, when hitting int scoreToWin.
-// TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
-// TODO: Go through all variables and methods - are they used? Can they be optimized? 
+// 10:51 Linnea is doing (2) 
+// (1) TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
+// (2) TODO: Go through all variables and methods - are they used? Can they be optimized? 
+// Will write // checked at variables and methods, that I have checked. 
+
 
 // This is the 'game', that controls the scores for each  player, at rolls the die. 
 public class Test {
@@ -15,8 +17,8 @@ public class Test {
 	public static void main(String[] args) throws InterruptedException {
 
 		// Defining (and initializing)...
-		Scanner sc = new Scanner(System.in);
-		boolean playing = false;
+		Scanner sc = new Scanner(System.in); // checked
+		boolean playing = false; // checked
 		boolean creating = true;
 		Player player;
 		List<Player> listOfPlayers = new ArrayList<Player>(); // The list, which holds the objects Player
@@ -44,8 +46,10 @@ public class Test {
 		}
 
 		playing = true;
+		creating =! true;
 
-		System.out.println(numberOfPlayers + " players has entered the game.\nEnter amount of points to win (recommended)");
+		System.out.println(numberOfPlayers
+				+ " players has entered the game.\nEnter amount of points to win (when testing choose 1)");
 		scoreToWin = sc.nextInt();
 		System.out.println("Press '0' to roll.");
 		int num = sc.nextInt();
@@ -115,13 +119,17 @@ public class Test {
 					}
 
 				}
+				Thread.sleep(1000);
 				// Printing out the scoring sheet:
-				System.out.println("\nScoring list:\n");
+				System.out.println("\n - Scoring list:");
 				for (int i = 0; i < numberOfPlayers; i++) {
 					System.out.println(
 							listOfPlayers.get(i).getName() + " - total score: " + listOfPlayers.get(i).getTotalScore());
 					if (listOfPlayers.get(i).getTotalScore() == scoreToWin) {
-						System.out.println(" CONGRATS TO\n" + listOfPlayers.get(i).getName() + "\n*YOU WIN*");
+						System.out
+								.println("\n   CONGRATS TO\n  " + listOfPlayers.get(i).getName() + "\n    *YOU WIN*\n");
+						playing = false;
+						break;
 					}
 				}
 
@@ -130,14 +138,17 @@ public class Test {
 			else if (num != 0) {
 				System.out.println("Invalid input.");
 			}
-			// Roll again by pressing 0
-			System.out.println("\n\n\nPress '0' to roll");
-			num = sc.nextInt();
-
+			if (playing) {
+				// Roll again by pressing 0
+				System.out.println("\n\nPress '0' to roll");
+				num = sc.nextInt();
+			}
 		}
 
 		// TODO write code, where max score has been reached, and that boolean connected
 		// = false; to close Scanner sc
+
+		System.out.print("\nThank you for playing DiceRace\n");
 		sc.close();
 
 	}
