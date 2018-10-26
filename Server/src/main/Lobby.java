@@ -50,7 +50,7 @@ public class Lobby implements Serializable {
 			try {
 				// Creating the server on the stated port
 				ServerSocket serverSocket = new ServerSocket(PORT);
-				System.out.println("Server waiting for connections...");
+				System.out.println("Waiting for connections...");
 				// While the variable morePlayersCanJoin is true the server can accept clients
 				while (morePlayersCanJoin) {
 					// increases the number of clients that joined and accepting the connection
