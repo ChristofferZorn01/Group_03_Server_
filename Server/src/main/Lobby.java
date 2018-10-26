@@ -301,15 +301,15 @@ public class Lobby implements Serializable {
 				
 			while(allPlayersReady) {
 				
-//				while(YOUHAVEWON !=  true) {
+				while(YOUHAVEWON !=  true) {
 					
 					rollTheDice();
 				
-//				} if (YOUHAVEWON == true) {
-//					
-//					gameEnded();
-//					
-//				}
+				} if (YOUHAVEWON == true) {
+					
+					gameEnded();
+					
+				}
 				
 
 				
@@ -347,6 +347,7 @@ public class Lobby implements Serializable {
 			objectOutputStream3.writeUTF("Press 'r' to roll the dice");
 			objectOutputStream4.writeUTF("Press 'r' to roll the dice");
 			
+			// READ INPUT FROM USER AND SEE IF IT IS 'r'
 			if(objectInputStream.readChar() == roll && objectInputStream2.readChar() == roll && objectInputStream3.readChar() == roll && objectInputStream4.readChar() == roll) {
 					dice = new Dice(clientNumber); // Creating a new dice for getting different rolls.
 
@@ -417,6 +418,7 @@ public class Lobby implements Serializable {
 							 * (int i = numberOfPlayers; i >=0; i--). And the same for j. Try it out!
 							 */
 							if (i == clientNumber - 1) {
+								System.out.println("ifLastPlayerHasMax: " + ifLastPlayerHasMax);
 								objectOutputStream.writeBoolean(ifLastPlayerHasMax = true);
 								objectOutputStream2.writeBoolean(ifLastPlayerHasMax = true);
 								objectOutputStream3.writeBoolean(ifLastPlayerHasMax = true);
@@ -429,13 +431,16 @@ public class Lobby implements Serializable {
 
 								break outerloop;
 							} else {
+								System.out.println("ifLastPlayerHasMax: " + ifLastPlayerHasMax);
 								objectOutputStream.writeBoolean(ifLastPlayerHasMax = false);
 								objectOutputStream2.writeBoolean(ifLastPlayerHasMax = false);
 								objectOutputStream3.writeBoolean(ifLastPlayerHasMax = false);
 								objectOutputStream4.writeBoolean(ifLastPlayerHasMax = false);
+								
+								
 								break outerloop;
 							}
-						}
+						} 
 
 					}
 					// Printing out the scoring sheet:
@@ -448,15 +453,19 @@ public class Lobby implements Serializable {
 						objectOutputStream2.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
 						objectOutputStream3.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
 						objectOutputStream4.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
-						
-//						if (listOfPlayers.get(i).getTotalScore() == scoreToWin) {
-//							YOUHAVEWON = true;
-//						} else {
-//							YOUHAVEWON = false;
-//						}
+
+						if (listOfPlayers.get(i).getTotalScore() == scoreToWin) {
+							YOUHAVEWON = true;
+						} else {
+							YOUHAVEWON = false;
+						}
 						
 						
 					}
+					objectOutputStream.writeBoolean(ifLastPlayerHasMax = false);
+					objectOutputStream2.writeBoolean(ifLastPlayerHasMax = false);
+					objectOutputStream3.writeBoolean(ifLastPlayerHasMax = false);
+					objectOutputStream4.writeBoolean(ifLastPlayerHasMax = false);
 			}
 
 

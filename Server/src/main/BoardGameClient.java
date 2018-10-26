@@ -75,6 +75,8 @@ public class BoardGameClient implements Serializable {
 		// Receive a bool so the client stays inside the game while loop
 		gameStarted = objectInputStream.readBoolean();
 		
+		
+		// IF THE GAME HAS STARTED
 		while(gameStarted) {
 		// Receive instructions to roll the dice
 		System.out.println(objectInputStream.readUTF());
@@ -83,7 +85,7 @@ public class BoardGameClient implements Serializable {
 		String roll = input.next();
 		objectOutputStream.writeChars(roll);
 
-		// Receive info what you rolled
+		// Receive info what each player rolled
 		for(int i = 0; i < 4; i++) {
 		System.out.println(objectInputStream.readUTF());
 		}
@@ -98,6 +100,7 @@ public class BoardGameClient implements Serializable {
 		System.out.println(objectInputStream.readUTF());
 		}
 		
+		// Else if someone else has max
 	} else {
 		System.out.println(objectInputStream.readUTF());
 		//Receive info of scoring list
@@ -105,6 +108,7 @@ public class BoardGameClient implements Serializable {
 		System.out.println(objectInputStream.readUTF());
 		}
 	}
+		// if last player has the max value
 		if(objectInputStream.readBoolean() == true) {
 		// Receive info of who rolled the highest value
 		System.out.println(objectInputStream.readUTF());
@@ -113,6 +117,8 @@ public class BoardGameClient implements Serializable {
 		for(int i = 0; i < 5; i++) {
 		System.out.println(objectInputStream.readUTF());
 		} 
+		
+	} else {
 		
 	}
 		
