@@ -326,29 +326,7 @@ public class Lobby implements Serializable {
 	            return false;
 	            }
 	        }
-	    
-	    public void Move() {
-	    	// Method for moving the players 
 	    }
-	    }
-	
-	static class Board {
-		
-		public static int EMPTY = 0; 
-		
-		public static final int TRACK = 50;
-		
-		int currentState; // current state of the game 
-		int currentPlayer; // current player 
-		int currentTrack; // Current place in the track of the game
-		
-		public static void CreateBoard() { // !! We need to add a argument inside the constructor which holds the players 
-			for(int track = 0; track < TRACK; ++track) {
-			}
-			
-			// hello 
-		}
-	}
 }
 
 /*
