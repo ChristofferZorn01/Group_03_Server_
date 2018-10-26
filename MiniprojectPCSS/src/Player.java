@@ -1,33 +1,30 @@
+public class Player {
 
-public class Player { 
-
-	private int playerNumber;
-	private int totalScore = 0;
+	private int playerNumber; // player "name"
+	public int totalScore;
+	private int scoreToWin = 10;
 
 	Player(int playerNumber) {
 		this.playerNumber = playerNumber;
+		totalScore= 0;
 	}
 
 	public String getName() {
 		return "Player no. " + playerNumber;
 	}
 
-	void addToScore() {
-		totalScore += 1;
+	public void addScore() {
+		totalScore = totalScore+1;
+	// 	if(totalScore == scoreToWin) return with System.out.println("YOU WON!!)	
 	}
 
-	void subFromScore() {
-		totalScore -= 1;
+	void subScore() {
+		totalScore = totalScore - 1;
+		if(totalScore < 0) totalScore = 0;
 	}
 
-	int getTotalScore() {
+	public int getTotalScore() {
 		return totalScore;
 	}
 
-	void resetScore() {
-		totalScore = 0;
-	}
-
-	
-	
 }
