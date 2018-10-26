@@ -3,7 +3,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-// Linnea: Right now working on getting the final winning message, when hitting int scoreToWin.
 // TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
 // TODO: Go through all variables and methods - are they used? Can they be optimized? 
 
@@ -43,7 +42,8 @@ public class Test {
 
 		playing = true;
 
-		System.out.println(numberOfPlayers + " players has entered the game.\nEnter amount of points to win (when testing choose 2)");
+		System.out.println(numberOfPlayers
+				+ " players has entered the game.\nEnter amount of points to win (when testing choose 1)");
 		scoreToWin = sc.nextInt();
 		System.out.println("Press '0' to roll.");
 		int num = sc.nextInt();
@@ -120,8 +120,10 @@ public class Test {
 					System.out.println(
 							listOfPlayers.get(i).getName() + " - total score: " + listOfPlayers.get(i).getTotalScore());
 					if (listOfPlayers.get(i).getTotalScore() == scoreToWin) {
-						System.out.println("\n   CONGRATS TO\n  " + listOfPlayers.get(i).getName() + "\n    *YOU WIN*\n");
-						playing =! true;
+						System.out
+								.println("\n   CONGRATS TO\n  " + listOfPlayers.get(i).getName() + "\n    *YOU WIN*\n");
+						playing = false;
+						break;
 					}
 				}
 
@@ -130,15 +132,16 @@ public class Test {
 			else if (num != 0) {
 				System.out.println("Invalid input.");
 			}
-			// Roll again by pressing 0
-			System.out.println("\n\nPress '0' to roll");
-			num = sc.nextInt();
-
+			if (playing) {
+				// Roll again by pressing 0
+				System.out.println("\n\nPress '0' to roll");
+				num = sc.nextInt();
+			}
 		}
 
 		// TODO write code, where max score has been reached, and that boolean connected
 		// = false; to close Scanner sc
-		
+
 		System.out.print("\nThank you for playing DiceRace\n");
 		sc.close();
 
