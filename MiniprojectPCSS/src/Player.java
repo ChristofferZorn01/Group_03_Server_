@@ -2,7 +2,6 @@ public class Player {
 
 	private int playerNumber; // player "name"
 	public int totalScore;
-	private int scoreToWin = 10;
 
 	Player(int playerNumber) {
 		this.playerNumber = playerNumber;

@@ -3,6 +3,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+// Linnea: Right now working on getting the final winning message, when hitting int scoreToWin.
+// TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
+// TODO: Go through all variables and methods - are they used? Can they be optimized? 
+
 // This is the 'game', that controls the scores for each  player, at rolls the die. 
 public class Test {
 
@@ -16,6 +20,7 @@ public class Test {
 		List<Player> listOfPlayers = new ArrayList<Player>(); // The list, which holds the objects Player
 		Dice dice;
 		int numberOfPlayers; // How many players are playing?
+		int scoreToWin; // The score, that a player has to reach to win
 
 		// This is for testing the program. Using the scanner to read how many players.
 		System.out.println("Put in number of players:");
@@ -38,7 +43,9 @@ public class Test {
 
 		playing = true;
 
-		System.out.println(numberOfPlayers + " players has entered the game. Press '0' to roll.");
+		System.out.println(numberOfPlayers + " players has entered the game.\nEnter amount of points to win (recommended)");
+		scoreToWin = sc.nextInt();
+		System.out.println("Press '0' to roll.");
 		int num = sc.nextInt();
 
 		// while-loop, so scanner doesn't close
@@ -91,7 +98,12 @@ public class Test {
 								break outerloop;
 							}
 
-						} // If it's the last player, who has max:
+						}
+						// If it's the last player, who has max:
+						/*
+						 * TODO: CAN BE OPTIMIZED, if: for (int i = 0; i < numberOfPlayers; i++) ==> for
+						 * (int i = numberOfPlayers; i >=0; i--). And the same for j. Try it out!
+						 */
 						if (i == numberOfPlayers - 1) {
 							listOfPlayers.get(i).addScore();
 							System.out.println((i + 1) + " rolled the highest value: +1 point.");
@@ -106,6 +118,9 @@ public class Test {
 				for (int i = 0; i < numberOfPlayers; i++) {
 					System.out.println(
 							listOfPlayers.get(i).getName() + " - total score: " + listOfPlayers.get(i).getTotalScore());
+					if (listOfPlayers.get(i).getTotalScore() == scoreToWin) {
+						System.out.println(" CONGRATS TO\n" + listOfPlayers.get(i).getName() + "\n*YOU WIN*");
+					}
 				}
 
 			}
