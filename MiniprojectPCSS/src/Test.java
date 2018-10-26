@@ -3,8 +3,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-// TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
-// TODO: Go through all variables and methods - are they used? Can they be optimized? 
+// 10:51 Linnea is doing (2) 
+// (1) TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
+// (2) TODO: Go through all variables and methods - are they used? Can they be optimized? 
 // Will write // checked at variables and methods, that I have checked. 
 
 
@@ -14,8 +15,8 @@ public class Test {
 	public static void main(String[] args) throws InterruptedException {
 
 		// Defining (and initializing)...
-		Scanner sc = new Scanner(System.in);
-		boolean playing = false;
+		Scanner sc = new Scanner(System.in); // checked
+		boolean playing = false; // checked
 		boolean creating = true;
 		Player player;
 		List<Player> listOfPlayers = new ArrayList<Player>(); // The list, which holds the objects Player
@@ -43,6 +44,7 @@ public class Test {
 		}
 
 		playing = true;
+		creating =! true;
 
 		System.out.println(numberOfPlayers
 				+ " players has entered the game.\nEnter amount of points to win (when testing choose 1)");
