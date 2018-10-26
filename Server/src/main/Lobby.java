@@ -43,58 +43,73 @@ public class Lobby implements Serializable {
 	}
 
 	public void runServer() throws IOException, ClassNotFoundException {
+		// connecting the lobby to the main server
 		registerServer();
+		// creating a new thread for the lobby 
 		new Thread(() -> {
 			try {
+				// Creating the server on the stated port
 				ServerSocket serverSocket = new ServerSocket(PORT);
 				System.out.println("Server waiting for connections...");
+				// While the variable morePlayersCanJoin is true the server can accept clients
 				while (morePlayersCanJoin) {
+					// increases the number of clients that joined and accepting the connection
 					clientNumber++;
 					Socket socket1 = serverSocket.accept();
+					// creating an output stream to the client telling the client how many clients are missing before the game can start
 					DataOutputStream objectOutputStream = new DataOutputStream(socket1.getOutputStream());
 					objectOutputStream.writeInt(MAX_USERS - clientNumber);
-					
+
 					System.out.println("User " + clientNumber + " is now connected");
+					// increases the number of clients that joined and accepting the connection
 					clientNumber++;
 					Socket socket2 = serverSocket.accept();
+					// creating an output stream to the client telling the client how many clients are missing before the game can start
 					DataOutputStream objectOutputStream1 = new DataOutputStream(socket2.getOutputStream());
 					objectOutputStream1.writeInt(MAX_USERS - clientNumber);
-					
+
 					System.out.println("User " + clientNumber + " is now connected");
+					// increases the number of clients that joined and accepting the connection
 					clientNumber++;
 					Socket socket3 = serverSocket.accept();
+					// creating an output stream to the client telling the client how many clients are missing before the game can start
 					DataOutputStream objectOutputStream2 = new DataOutputStream(socket3.getOutputStream());
 					objectOutputStream2.writeInt(MAX_USERS - clientNumber);
-					
+
 					System.out.println("User " + clientNumber + " is now connected");
+					// increases the number of clients that joined and accepting the connection
 					clientNumber++;
 					Socket socket4 = serverSocket.accept();
+					// creating an output stream to the client telling the client how many clients are missing before the game can start
 					DataOutputStream objectOutputStream3 = new DataOutputStream(socket4.getOutputStream());
 					System.out.println("User " + clientNumber + " is now connected");
 					objectOutputStream3.writeInt(MAX_USERS - clientNumber);
-					
+
+					// if the number of clients reaches 4, no more clients are able to join
 					if (clientNumber >= 4) {
 						System.out.println("Limit Reached");
 						morePlayersCanJoin = false;
-				}
-				//	new ServerThread(socket, socket2).start();
+					}
 
 					
+					// depending on the number of clients that have joined, the switch statement makes sure enough new threads are created
 					switch (clientNumber) {
-					case 2: 
+					// if the client number is 2: 2 new threads are created
+					case 2:
 						new Thread(new ServerThread(socket1, socket2)).start();
 						break;
+						// if the client number is 3: 3 new threads are created
 					case 3:
 						new Thread(new ServerThread(socket1, socket2, socket3)).start();
 						break;
-					case 4: 
+						// if the client number is 4: 4 new threads are created
+					case 4:
 						new Thread(new ServerThread(socket1, socket2, socket3, socket4)).start();
 						break;
-					default: 
+					default:
 						break;
 					}
-					
-					
+
 				}
 			} catch (IOException ex) {
 				ex.printStackTrace();
@@ -103,27 +118,27 @@ public class Lobby implements Serializable {
 
 	}
 
+	// Method for establishing a connection to the MainServer
 	private void registerServer() throws UnknownHostException, IOException, ClassNotFoundException {
-		// Method for establishing a connection to the MainServer
+		// Connecting to the main server
 		Socket socket = new Socket(MainServer.HOST, MainServer.PORT);
-
+		// Input and output to the main server from the lobby
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 		ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 		objectOutputStream.writeObject(this);
 
 		System.out.println((String) objectInputStream.readObject());
 	}
-	
-	
 
+		// class to create new threads depending of the amount of clients connected
 	public class ServerThread extends Thread {
+		// declaring 4 sockets one for each client joined 
 		public Socket socket1;
 		public Socket socket2;
 		public Socket socket3;
 		public Socket socket4;
 
-		
-		
+		// constructors that overrides each-other depending on how many client are connected
 		ServerThread(Socket socket) {
 			this.socket1 = socket;
 		}
@@ -145,8 +160,8 @@ public class Lobby implements Serializable {
 			this.socket3 = socket3;
 			this.socket4 = socket4;
 		}
-		
-		// Declare the input and output streams
+
+		// Declare the input and output streams of the 4 clients
 		DataInputStream inputClient1;
 		DataOutputStream outputClient1;
 		DataInputStream inputClient2;
@@ -155,21 +170,22 @@ public class Lobby implements Serializable {
 		DataOutputStream outputClient3;
 		DataInputStream inputClient4;
 		DataOutputStream outputClient4;
-		
+
 		public void run() {
 			try {
 
-				// This method is for when the client want's to connect to the lobby
+				// The input and output to each client 
+				// Client #1 
 				inputClient1 = new DataInputStream(socket1.getInputStream());
 				outputClient1 = new DataOutputStream(socket1.getOutputStream());
 				System.out.println(socket1);
 				System.out.println("User 1 is now connected");
-
+				// sending messages to the client stating that they have joined, they are player X and if they are ready press X
 				outputClient1.writeUTF(joinedServer);
 				outputClient1.writeUTF(youArePlayerNumber + 1);
-
 				outputClient1.writeUTF(pressIfReady);
 
+				// Client #2
 				inputClient2 = new DataInputStream(socket2.getInputStream());
 				outputClient2 = new DataOutputStream(socket2.getOutputStream());
 				System.out.println(socket2);
@@ -177,9 +193,9 @@ public class Lobby implements Serializable {
 
 				outputClient2.writeUTF(joinedServer);
 				outputClient2.writeUTF(youArePlayerNumber + 2);
-
 				outputClient2.writeUTF(pressIfReady);
 
+				// Client #3 
 				inputClient3 = new DataInputStream(socket3.getInputStream());
 				outputClient3 = new DataOutputStream(socket3.getOutputStream());
 				System.out.println(socket2);
@@ -187,9 +203,9 @@ public class Lobby implements Serializable {
 
 				outputClient3.writeUTF(joinedServer);
 				outputClient3.writeUTF(youArePlayerNumber + 3);
-
 				outputClient3.writeUTF(pressIfReady);
 
+				// Client #4 
 				inputClient4 = new DataInputStream(socket4.getInputStream());
 				outputClient4 = new DataOutputStream(socket4.getOutputStream());
 				System.out.println(socket2);
@@ -197,9 +213,11 @@ public class Lobby implements Serializable {
 
 				outputClient4.writeUTF(joinedServer);
 				outputClient4.writeUTF(youArePlayerNumber + 4);
-
 				outputClient4.writeUTF(pressIfReady);
 
+				// If statements to check whether the client are ready to start the game
+				
+				
 				if (inputClient1.readInt() == 1) {
 					System.out.println("Player number before increment from user 1: " + playerNumberReady);
 					playerNumberReady++;
@@ -216,7 +234,6 @@ public class Lobby implements Serializable {
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
 					if (allPlayersReady != true) {
-//						objectOutputStream.writeUTF(waiting);
 						outputClient2.writeUTF(waiting);
 					} else {
 						outputClient1.writeUTF(letsGo);
@@ -230,8 +247,6 @@ public class Lobby implements Serializable {
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
 					allPlayersReady = checkIfAllPlayersReady();
 					if (allPlayersReady != true) {
-//						objectOutputStream.writeUTF(waiting);
-//						objectOutputStream2.writeUTF(waiting);
 						outputClient3.writeUTF(waiting);
 					} else {
 						outputClient1.writeUTF(letsGo);
@@ -247,7 +262,7 @@ public class Lobby implements Serializable {
 					allPlayersReady = checkIfAllPlayersReady();
 					if (allPlayersReady != true) {
 						outputClient1.writeUTF(waiting);
-					} else { 
+					} else {
 						outputClient1.writeUTF(letsGo);
 						outputClient2.writeUTF(letsGo);
 						outputClient3.writeUTF(letsGo);
@@ -261,13 +276,12 @@ public class Lobby implements Serializable {
 				outputClient2.writeBoolean(true);
 				outputClient3.writeBoolean(true);
 				outputClient4.writeBoolean(true);
-				
-			while(allPlayersReady) {
-				
-				rollTheDice();
 
-				
-			}
+				while (allPlayersReady) {
+
+					rollTheDice();
+
+				}
 			} catch (EOFException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -284,78 +298,29 @@ public class Lobby implements Serializable {
 			}
 
 		}
+
 		public void rollTheDice() throws IOException {
 			outputClient1.writeUTF("Press 'r' to roll the dice");
 			outputClient2.writeUTF("Press 'r' to roll the dice");
 			outputClient3.writeUTF("Press 'r' to roll the dice");
 			outputClient4.writeUTF("Press 'r' to roll the dice");
-			
+
 			Random rand = new Random();
 			char rollValue = inputClient1.readChar();
 			System.out.println(rollValue);
-			outputClient1.writeUTF("You rollled " + rand.nextInt(50) );
-			
+			outputClient1.writeUTF("You rollled " + rand.nextInt(50));
+
 			rollValue = inputClient2.readChar();
 			System.out.println(rollValue);
 			outputClient2.writeUTF("You rollled " + rand.nextInt(50));
-			
+
 			rollValue = inputClient3.readChar();
 			System.out.println(rollValue);
 			outputClient3.writeUTF("You rollled " + rand.nextInt(50));
-			
+
 			rollValue = inputClient4.readChar();
 			System.out.println(rollValue);
 			outputClient4.writeUTF("You rollled " + rand.nextInt(50));
 		}
 	}
 }
-		
-	/*	// Method needed for when players win 
-	    boolean PlayerWon(int positionState) {
-	        // Print message if game-over
-	        if (positionState == socket1) {
-	            System.out.println(T"'Player1' won!");
-	        } else if (positionState == socket2) {
-	            System.out.println("'Player2' won!");
-	        } else if (positionState == socket3) {
-	            System.out.println("'Player3' won!");
-	        } else if (positionState == socket4) {
-	            System.out.println("'Player4' won!");
-	        } else {
-	            return false;
-	            }
-	        }
-	    }
-}*/
-
-/*
- * // numberOfPlayers = Server.getNumberOfClients();
- * 
- * newDiceTest dice = new newDiceTest(numberOfPlayers);
- * 
- * private boolean checkIfReady() { if(playerReady == false) { return false; }
- * else { return true; } }
- * 
- * // public Lobby() { // // } // // public Lobby(String clientName, int
- * playerScore) { // this.clientName = clientName; // this.playerScore =
- * playerScore; // }
- * 
- * // !!!!!!!!!! The following functions probably belong in a Board class, not
- * this class !!!!!!!!!!!! // public void setDiceSize() { diceSize =
- * dice.getDiceSize(); }
- * 
- * // This should return client's name, followed by their individual score
- * public int getBoardScore() { return this.playerScore; }
- * 
- * // Not sure what this one should do, it's taken from the class diagram public
- * int getDiceRoll() { return diceRoll; }
- * 
- * // This function should add the dice value to player's score
- * 
- * // Need help to get access to the Dice class private void addDiceToScore(int
- * diceToScore) { // int diceValue = Dice.roll(); this.playerScore +=
- * diceToScore; }
- * 
- * public static void main(String[] args) { // TODO Auto-generated method stub }
- * }
- */
