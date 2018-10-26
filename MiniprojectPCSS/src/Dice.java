@@ -15,7 +15,7 @@ import java.util.ArrayList;
 		// Constructor, that takes in the number of players
 		public Dice(int players) {
 			// There will always be one more side on the die than there are players
-			sides = players + 1;
+			sides = players *2;
 		}
 	
 		// Getting the size of the dice (how many faces).
@@ -24,9 +24,10 @@ import java.util.ArrayList;
 		}
 	
 		// Rolling the die
-		public void roll() {
+		public void roll() throws InterruptedException {
 			// Value for face. Take in sides as argument, which sets the max. 1 is min.
 			faceValue = random.nextInt(sides) + 1;
+			Thread.sleep(100);
 			listWithRolls.add(faceValue);
 		}
 	

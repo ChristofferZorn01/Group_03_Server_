@@ -308,9 +308,25 @@ public class Lobby implements Serializable {
 			outputClient4.writeUTF("You rollled " + rand.nextInt(50));
 		}
 	}
-	
-
 }
+		
+	/*	// Method needed for when players win 
+	    boolean PlayerWon(int positionState) {
+	        // Print message if game-over
+	        if (positionState == socket1) {
+	            System.out.println(T"'Player1' won!");
+	        } else if (positionState == socket2) {
+	            System.out.println("'Player2' won!");
+	        } else if (positionState == socket3) {
+	            System.out.println("'Player3' won!");
+	        } else if (positionState == socket4) {
+	            System.out.println("'Player4' won!");
+	        } else {
+	            return false;
+	            }
+	        }
+	    }
+}*/
 
 /*
  * // numberOfPlayers = Server.getNumberOfClients();

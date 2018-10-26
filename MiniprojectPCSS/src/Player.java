@@ -1,6 +1,6 @@
 public class Player {
 
-	private int playerNumber;
+	private int playerNumber; // player "name"
 	public int totalScore;
 
 	Player(int playerNumber) {
@@ -14,6 +14,7 @@ public class Player {
 
 	public void addScore() {
 		totalScore = totalScore+1;
+	// 	if(totalScore == scoreToWin) return with System.out.println("YOU WON!!)	
 	}
 
 	void subScore() {
