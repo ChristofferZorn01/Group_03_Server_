@@ -459,102 +459,11 @@ public class Lobby implements Serializable {
 					}
 			}
 
-				
-//				 If Scanner sc read something else than 'r':
-//				else if (objectInputStream.readChar() != roll) {
-//					wrongInput = true;
-//					objectOutputStream.writeBoolean(wrongInput);
-//					objectOutputStream.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
-//					roll = objectInputStream.readChar();
-//					
-//				} else if(objectInputStream2.readChar() != roll) {
-//					wrongInput = true;
-//					objectOutputStream2.writeBoolean(wrongInput);
-//					objectOutputStream2.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
-//					roll = objectInputStream2.readChar();
-//					
-//				} else if(objectInputStream3.readChar() != roll) {
-//					wrongInput = true;
-//					objectOutputStream3.writeBoolean(wrongInput);
-//					objectOutputStream3.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
-//					roll = objectInputStream3.readChar();
-//					
-//				} else if ( objectInputStream4.readChar() != roll) {
-//					wrongInput = true;
-//					objectOutputStream4.writeBoolean(wrongInput);
-//					objectOutputStream4.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
-//					roll = objectInputStream4.readChar();
-//				}
 
 			}
 				
 			}
-//			
-//			Random rand = new Random();
-//			char rollValue = objectInputStream.readChar();
-//			System.out.println(rollValue);
-//			objectOutputStream.writeUTF("You rollled " + rand.nextInt(50) );
-//			
-//			rollValue = objectInputStream2.readChar();
-//			System.out.println(rollValue);
-//			objectOutputStream2.writeUTF("You rollled " + rollValue);
-//			
-//			rollValue = objectInputStream3.readChar();
-//			System.out.println(rollValue);
-//			objectOutputStream3.writeUTF("You rollled " + rollValue);
-//			
-//			rollValue = objectInputStream4.readChar();
-//			System.out.println(rollValue);
-//			objectOutputStream4.writeUTF("You rollled " + rollValue);
-		
-		
-		// Method needed for when players win 
-		/*
-	    boolean PlayerWon(int positionState) {
-	        // Print message if game-over
-	        if (positionState == socket1) {
-	            System.out.println(T"'Player1' won!");
-	        } else if (positionState == socket2) {
-	            System.out.println("'Player2' won!");
-	        } else if (positionState == socket3) {
-	            System.out.println("'Player3' won!");
-	        } else if (positionState == socket4) {
-	            System.out.println("'Player4' won!");
-	        } else {
-	            return false;
-	            }
-	        }*/
+
 	    }
 
 
-/*
- * // numberOfPlayers = Server.getNumberOfClients();
- * 
- * newDiceTest dice = new newDiceTest(numberOfPlayers);
- * 
- * private boolean checkIfReady() { if(playerReady == false) { return false; }
- * else { return true; } }
- * 
- * // public Lobby() { // // } // // public Lobby(String clientName, int
- * playerScore) { // this.clientName = clientName; // this.playerScore =
- * playerScore; // }
- * 
- * // !!!!!!!!!! The following functions probably belong in a Board class, not
- * this class !!!!!!!!!!!! // public void setDiceSize() { diceSize =
- * dice.getDiceSize(); }
- * 
- * // This should return client's name, followed by their individual score
- * public int getBoardScore() { return this.playerScore; }
- * 
- * // Not sure what this one should do, it's taken from the class diagram public
- * int getDiceRoll() { return diceRoll; }
- * 
- * // This function should add the dice value to player's score
- * 
- * // Need help to get access to the Dice class private void addDiceToScore(int
- * diceToScore) { // int diceValue = Dice.roll(); this.playerScore +=
- * diceToScore; }
- * 
- * public static void main(String[] args) { // TODO Auto-generated method stub }
- * }
- */
