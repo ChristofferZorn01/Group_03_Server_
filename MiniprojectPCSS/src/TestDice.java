@@ -1,5 +1,6 @@
-	
-	// Class for testing Dice class
+
+
+// Class for testing Dice class
 
 	class TestDice {
 	

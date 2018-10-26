@@ -43,7 +43,7 @@ public class Test {
 
 						for (int j = i + 1; j < numberOfPlayers; j++) {
 							if (dice.getRollsFromList(i) != dice.getRollsFromList(j) && j == (numberOfPlayers - 1)) {
-								System.out.println((i + 1) + " rullede max som den eneste. Får 1 point.");
+								System.out.println((i + 1) + " rullede max som den eneste. Fï¿½r 1 point.");
 								listOfPlayers.get(i).addScore();
 							}
 
@@ -81,7 +81,7 @@ public class Test {
 		 * for (int j = i + 1; j < numberOfPlayers; j++) { if (dice.getRollsFromList(i)
 		 * != dice.getRollsFromList(j) && j == (numberOfPlayers - 1)) {
 		 * System.out.println(listOfPlayers.get(i).getName() +
-		 * " rullede max som den eneste. Får 1 point.");
+		 * " rullede max som den eneste. Fï¿½r 1 point.");
 		 * listOfPlayers.get(i).addScore(); break outerloop; }
 		 * 
 		 * else if (dice.getRollsFromList(i) == dice.getRollsFromList(j)) {
