@@ -33,7 +33,7 @@ public class Lobby implements Serializable {
 	public String joinedServer = "Game Session started!";
 	public String waiting = "Waiting...";
 	public String letsGo = "LETS GO";
-	public String youArePlayerNumber = "You are player number: ";
+	public String youArePlayerNumber = "You are player: ";
 	public String pressIfReady = "Press '1' if you are ready";
 	public boolean morePlayersCanJoin = true;
 
@@ -139,21 +139,26 @@ public class Lobby implements Serializable {
 		public Socket socket4;
 
 		// constructors that overrides each-other depending on how many client are connected
+		
+		// If only one clients have connected
 		ServerThread(Socket socket) {
 			this.socket1 = socket;
 		}
 
+		// If two clients have connected
 		ServerThread(Socket socket, Socket socket2) {
 			this.socket1 = socket;
 			this.socket2 = socket2;
 		}
 
+		// If three clients have connected
 		ServerThread(Socket socket1, Socket socket2, Socket socket3) {
 			this.socket1 = socket1;
 			this.socket2 = socket2;
 			this.socket3 = socket3;
 		}
 
+		// If four clients have connected
 		ServerThread(Socket socket1, Socket socket2, Socket socket3, Socket socket4) {
 			this.socket1 = socket1;
 			this.socket2 = socket2;
@@ -217,22 +222,27 @@ public class Lobby implements Serializable {
 
 				// If statements to check whether the client are ready to start the game
 				
-				
+				// For client 1
 				if (inputClient1.readInt() == 1) {
 					System.out.println("Player number before increment from user 1: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 1: " + playerNumberReady);
+					// Checks if every client is ready
 					allPlayersReady = checkIfAllPlayersReady();
-					if (allPlayersReady == false) {
+					// if false wait for the rest
+					if (allPlayersReady != true) {
 						outputClient1.writeUTF(waiting);
 					}
 				}
 
+				// For client 2
 				if (inputClient2.readInt() == 1) {
 					System.out.println("Player number before increment from user 2: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
+					// Checks if every client is ready
 					allPlayersReady = checkIfAllPlayersReady();
+					// if false wait for the rest
 					if (allPlayersReady != true) {
 						outputClient2.writeUTF(waiting);
 					} else {
@@ -245,7 +255,9 @@ public class Lobby implements Serializable {
 					System.out.println("Player number before increment from user 2: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
+					// Checks if every client is ready
 					allPlayersReady = checkIfAllPlayersReady();
+					// if false wait for the rest
 					if (allPlayersReady != true) {
 						outputClient3.writeUTF(waiting);
 					} else {
@@ -259,7 +271,9 @@ public class Lobby implements Serializable {
 					System.out.println("Player number before increment from user 2: " + playerNumberReady);
 					playerNumberReady++;
 					System.out.println("Player number after increment from user 2: " + playerNumberReady);
+					// Checks if every client is ready
 					allPlayersReady = checkIfAllPlayersReady();
+					// if false wait for the rest
 					if (allPlayersReady != true) {
 						outputClient1.writeUTF(waiting);
 					} else {

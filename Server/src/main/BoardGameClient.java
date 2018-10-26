@@ -48,9 +48,8 @@ public class BoardGameClient implements Serializable {
 			DataOutputStream outputToServer = new DataOutputStream(socket.getOutputStream());
 			DataInputStream inputFromServer = new DataInputStream(socket.getInputStream());
 			System.out.println("Trying to establish connection...");
-			while (true) {
+			while (socket.isConnected()) {
 				// objectOutputStream.writeObject(this);
-				System.out.println("You have connected to the Lobby");
 				System.out.println("Please wait for more players... Missing " + inputFromServer.readInt() + " players");
 				BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -64,7 +63,7 @@ public class BoardGameClient implements Serializable {
 				System.out.println(inputFromServer.readUTF());
 				System.out.println(inputFromServer.readUTF());
 
-				// Receive a bool so the client stays inside the game while loop
+				// Receive a boolean so the client stays inside the game while loop
 				gameStarted = inputFromServer.readBoolean();
 
 				while (gameStarted) {
