@@ -1,3 +1,5 @@
+package src;
+
 	import java.util.ArrayList;
 	import java.util.List;
 	import java.util.Random;
@@ -7,7 +9,7 @@
 		// Defining...
 		private int sides; // Number of sides on the die
 		public int faceValue; // the value of the roll
-		List<Integer> listWithRolls = new ArrayList<>(); // The list, which contains the different face values.
+		public List<Integer> listWithRolls = new ArrayList<>(); // The list, which contains the different face values.
 	
 		// Creating new random object, to create a random roll
 		Random random = new Random();
@@ -15,7 +17,7 @@
 		// Constructor, that takes in the number of players
 		public Dice(int players) {
 			// There will always be one more side on the die than there are players
-			sides = players *2;
+			sides = players + 2;
 		}
 	
 		// Getting the size of the dice (how many faces).

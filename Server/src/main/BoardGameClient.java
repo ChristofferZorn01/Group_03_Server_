@@ -25,6 +25,7 @@ public class BoardGameClient implements Serializable {
 	static DataOutputStream out;
 	public transient Scanner input = new Scanner(System.in);	
 	public boolean gameStarted;
+	public boolean correctInput = false;
 
 	public static void main(String[] args) {
 
@@ -77,14 +78,45 @@ public class BoardGameClient implements Serializable {
 		while(gameStarted) {
 		// Receive instructions to roll the dice
 		System.out.println(objectInputStream.readUTF());
-		
+
+		// Receive 'r' from clients input and send it to the lobby
 		String roll = input.next();
 		objectOutputStream.writeChars(roll);
+
+		// Receive info what you rolled
+		for(int i = 0; i < 4; i++) {
+		System.out.println(objectInputStream.readUTF());
+		}
 		
+		// If no one else had max
+		if(objectInputStream.readBoolean() == true) {
+		// Receive info of who rolled the highest value
 		System.out.println(objectInputStream.readUTF());
 		
+		//Receive info of scoring list
+		for(int i = 0; i < 5; i++) {
+		System.out.println(objectInputStream.readUTF());
+		}
 		
-
+	} else {
+		System.out.println(objectInputStream.readUTF());
+		//Receive info of scoring list
+		for(int i = 0; i < 5; i++) {
+		System.out.println(objectInputStream.readUTF());
+		}
+	}
+		if(objectInputStream.readBoolean() == true) {
+		// Receive info of who rolled the highest value
+		System.out.println(objectInputStream.readUTF());
+		
+		//Receive info of scoring list
+		for(int i = 0; i < 5; i++) {
+		System.out.println(objectInputStream.readUTF());
+		} 
+		
+	}
+		
+		
 		}
 		}
 //			objectOutputStream.writeObject(name + ": " + inputReader.readLine());

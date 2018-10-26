@@ -1,6 +1,9 @@
 package main;
 
 import java.io.DataInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -14,6 +17,8 @@ import java.net.UnknownHostException;
 import java.util.concurrent.Semaphore;
 
 import master.MainServer;
+import src.Dice;
+import src.Player;
 
 /**
  * The Class Server.
@@ -33,9 +38,28 @@ public class Lobby implements Serializable {
 	public String joinedServer = "Game Session started!";
 	public String waiting = "Waiting...";
 	public String letsGo = "LETS GO";
-	public String youArePlayerNumber = "You are player number: ";
+	public String youArePlayerNumber = "You are ";
 	public String pressIfReady = "Press '1' if you are ready";
 	public boolean morePlayersCanJoin = true;
+	public Player player1;
+	public Player player2;
+	public Player player3;
+	public Player player4;
+	public Dice dice;
+	public String rolledA = " rolled a ";
+	public String rolledTheHighestValue = " rolled the highest value: +1 point.";
+	public String scoringList = "\nScoring list:\n";
+	public String totalScore =  " - total score: ";
+	public String bothRolledHighestValue = " both rolled the highest value:";
+	public String bothLosePoint =  "\n Both lose a point (if not already on 0).";
+	public String and = " and ";
+	public boolean wrongInput = false;
+	List<Player> listOfPlayers = new ArrayList<Player>(); // The list, which holds the objects Player
+	int scoreToWin = 4; // The score, that a player has to reach to win
+	public char roll = 'r';
+	public boolean YOUHAVEWON = false;
+	public boolean noElseHasMax = false;
+	public boolean ifLastPlayerHasMax = false;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Lobby s = new Lobby();
@@ -50,24 +74,33 @@ public class Lobby implements Serializable {
 				System.out.println("Server waiting for connections...");
 				while (morePlayersCanJoin) {
 					clientNumber++;
+					
+					player1 = new Player(clientNumber);
+					listOfPlayers.add(player1);// Adding the new player to the list listOfPlayers
 					Socket socket1 = serverSocket.accept();
 					DataOutputStream objectOutputStream = new DataOutputStream(socket1.getOutputStream());
 					objectOutputStream.writeInt(MAX_USERS - clientNumber);
 					
 					System.out.println("User " + clientNumber + " is now connected");
 					clientNumber++;
+					player2 = new Player(clientNumber);
+					listOfPlayers.add(player2);// Adding the new player to the list listOfPlayers
 					Socket socket2 = serverSocket.accept();
 					DataOutputStream objectOutputStream1 = new DataOutputStream(socket2.getOutputStream());
 					objectOutputStream1.writeInt(MAX_USERS - clientNumber);
 					
 					System.out.println("User " + clientNumber + " is now connected");
 					clientNumber++;
+					player3 = new Player(clientNumber);
+					listOfPlayers.add(player3);// Adding the new player to the list listOfPlayers
 					Socket socket3 = serverSocket.accept();
 					DataOutputStream objectOutputStream2 = new DataOutputStream(socket3.getOutputStream());
 					objectOutputStream2.writeInt(MAX_USERS - clientNumber);
 					
 					System.out.println("User " + clientNumber + " is now connected");
 					clientNumber++;
+					player4 = new Player(clientNumber);
+					listOfPlayers.add(player4);// Adding the new player to the list listOfPlayers
 					Socket socket4 = serverSocket.accept();
 					DataOutputStream objectOutputStream3 = new DataOutputStream(socket4.getOutputStream());
 					System.out.println("User " + clientNumber + " is now connected");
@@ -79,6 +112,8 @@ public class Lobby implements Serializable {
 				}
 				//	new ServerThread(socket, socket2).start();
 
+				
+					
 					
 					switch (clientNumber) {
 					case 2: 
@@ -93,6 +128,7 @@ public class Lobby implements Serializable {
 					default: 
 						break;
 					}
+					
 					
 					
 				}
@@ -162,11 +198,12 @@ public class Lobby implements Serializable {
 				// This method is for when the client want's to connect to the lobby
 				objectInputStream = new DataInputStream(socket1.getInputStream());
 				objectOutputStream = new DataOutputStream(socket1.getOutputStream());
+				
 				System.out.println(socket1);
 				System.out.println("User 1 is now connected");
 
 				objectOutputStream.writeUTF(joinedServer);
-				objectOutputStream.writeUTF(youArePlayerNumber + 1);
+				objectOutputStream.writeUTF(youArePlayerNumber + player1.getName());
 
 				objectOutputStream.writeUTF(pressIfReady);
 
@@ -176,7 +213,7 @@ public class Lobby implements Serializable {
 				System.out.println("User 2 is now connected");
 
 				objectOutputStream2.writeUTF(joinedServer);
-				objectOutputStream2.writeUTF(youArePlayerNumber + 2);
+				objectOutputStream2.writeUTF(youArePlayerNumber + player2.getName());
 
 				objectOutputStream2.writeUTF(pressIfReady);
 
@@ -186,7 +223,7 @@ public class Lobby implements Serializable {
 				System.out.println("User 3 is now connected");
 
 				objectOutputStream3.writeUTF(joinedServer);
-				objectOutputStream3.writeUTF(youArePlayerNumber + 3);
+				objectOutputStream3.writeUTF(youArePlayerNumber + player3.getName());
 
 				objectOutputStream3.writeUTF(pressIfReady);
 
@@ -196,7 +233,7 @@ public class Lobby implements Serializable {
 				System.out.println("User 4 is now connected");
 
 				objectOutputStream4.writeUTF(joinedServer);
-				objectOutputStream4.writeUTF(youArePlayerNumber + 4);
+				objectOutputStream4.writeUTF(youArePlayerNumber + player4.getName());
 
 				objectOutputStream4.writeUTF(pressIfReady);
 
@@ -264,9 +301,15 @@ public class Lobby implements Serializable {
 				
 			while(allPlayersReady) {
 				
-				rollTheDice();
+//				while(YOUHAVEWON !=  true) {
+					
+					rollTheDice();
 				
-
+//				} if (YOUHAVEWON == true) {
+//					
+//					gameEnded();
+//					
+//				}
 				
 
 				
@@ -274,6 +317,9 @@ public class Lobby implements Serializable {
 			} catch (EOFException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -287,31 +333,183 @@ public class Lobby implements Serializable {
 			}
 
 		}
-		public void rollTheDice() throws IOException {
+		
+		public void gameEnded() throws IOException, InterruptedException  {
+			objectOutputStream.writeUTF("The game has ended");
+			objectOutputStream2.writeUTF("The game has ended");
+			objectOutputStream3.writeUTF("The game has ended");
+			objectOutputStream4.writeUTF("The game has ended");
+		}
+		
+		public void rollTheDice() throws IOException, InterruptedException {
 			objectOutputStream.writeUTF("Press 'r' to roll the dice");
 			objectOutputStream2.writeUTF("Press 'r' to roll the dice");
 			objectOutputStream3.writeUTF("Press 'r' to roll the dice");
 			objectOutputStream4.writeUTF("Press 'r' to roll the dice");
 			
-			Random rand = new Random();
-			char rollValue = objectInputStream.readChar();
-			System.out.println(rollValue);
-			objectOutputStream.writeUTF("You rollled " + rand.nextInt(50) );
-			
-			rollValue = objectInputStream2.readChar();
-			System.out.println(rollValue);
-			objectOutputStream2.writeUTF("You rollled " + rollValue);
-			
-			rollValue = objectInputStream3.readChar();
-			System.out.println(rollValue);
-			objectOutputStream3.writeUTF("You rollled " + rollValue);
-			
-			rollValue = objectInputStream4.readChar();
-			System.out.println(rollValue);
-			objectOutputStream4.writeUTF("You rollled " + rollValue);
-		}
+			if(objectInputStream.readChar() == roll && objectInputStream2.readChar() == roll && objectInputStream3.readChar() == roll && objectInputStream4.readChar() == roll) {
+					dice = new Dice(clientNumber); // Creating a new dice for getting different rolls.
+
+					// Roll once for each player
+					for (int i = 0; i < clientNumber; i++) {
+						dice.roll();
+//						System.out.println(listOfPlayers.get(i).getName() + " rolled a " + dice.getRollsFromList(i));
+						objectOutputStream.writeUTF(listOfPlayers.get(i).getName() + rolledA + dice.getRollsFromList(i));
+						objectOutputStream2.writeUTF(listOfPlayers.get(i).getName() + rolledA + dice.getRollsFromList(i));
+						objectOutputStream3.writeUTF(listOfPlayers.get(i).getName() + rolledA + dice.getRollsFromList(i));
+						objectOutputStream4.writeUTF(listOfPlayers.get(i).getName() + rolledA + dice.getRollsFromList(i));
+						Thread.sleep(1000);
+					}
+
+					int max = Collections.max(dice.listWithRolls); // Finding the max of the rolls.
+
+					Thread.sleep(1000);
+					// This is where the scoring happens
+					outerloop: for (int i = 0; i < clientNumber; i++) {
+
+						// if not player i has max, go back and search for next player.
+						if (dice.getRollsFromList(i) != max) {
+							// System.out.println(listOfPlayers.get(i).getName() + "did not roll the
+							// highest");
+							Thread.sleep(1000);
+						}
+						// Is roll i max?
+						if (dice.getRollsFromList(i) == max) {
+							// Checking if others also have max
+							for (int j = i + 1; j < clientNumber; j++) {
+
+								// If no one else has max, and will (should) only give point if every player has
+								// been checked, hence the j == num...
+								if (dice.getRollsFromList(i) != dice.getRollsFromList(j) && j == (clientNumber - 1)) {
+									listOfPlayers.get(i).addScore();
+									objectOutputStream.writeBoolean(noElseHasMax = true);
+									objectOutputStream2.writeBoolean(noElseHasMax = true);
+									objectOutputStream3.writeBoolean(noElseHasMax = true);
+									objectOutputStream4.writeBoolean(noElseHasMax = true);
+//									System.out.println((i + 1) + rolledTheHighestValue);
+									objectOutputStream.writeUTF((i + 1) + rolledTheHighestValue);
+									objectOutputStream2.writeUTF((i + 1) + rolledTheHighestValue);
+									objectOutputStream3.writeUTF((i + 1) + rolledTheHighestValue);
+									objectOutputStream4.writeUTF((i + 1) + rolledTheHighestValue);
+
+									break outerloop;
+								}
+
+								// If another player also has rolled the max, a point will be subtracted.
+								else if (dice.getRollsFromList(i) == dice.getRollsFromList(j)) {
+									objectOutputStream.writeBoolean(noElseHasMax = false);
+									objectOutputStream2.writeBoolean(noElseHasMax = false);
+									objectOutputStream3.writeBoolean(noElseHasMax = false);
+									objectOutputStream4.writeBoolean(noElseHasMax = false);
+									objectOutputStream.writeUTF(listOfPlayers.get(i).getName() + and + listOfPlayers.get(j).getName() + bothRolledHighestValue + max + bothLosePoint);
+									objectOutputStream2.writeUTF(listOfPlayers.get(i).getName() + and + listOfPlayers.get(j).getName() + bothRolledHighestValue + max + bothLosePoint);
+									objectOutputStream3.writeUTF(listOfPlayers.get(i).getName() + and + listOfPlayers.get(j).getName() + bothRolledHighestValue + max + bothLosePoint);
+									objectOutputStream4.writeUTF(listOfPlayers.get(i).getName() + and + listOfPlayers.get(j).getName() + bothRolledHighestValue + max + bothLosePoint);
+									listOfPlayers.get(i).subScore();
+									listOfPlayers.get(j).subScore();
+									break outerloop;
+								}
+
+							}
+							// If it's the last player, who has max:
+							/*
+							 * TODO: CAN BE OPTIMIZED, if: for (int i = 0; i < numberOfPlayers; i++) ==> for
+							 * (int i = numberOfPlayers; i >=0; i--). And the same for j. Try it out!
+							 */
+							if (i == clientNumber - 1) {
+								objectOutputStream.writeBoolean(ifLastPlayerHasMax = true);
+								objectOutputStream2.writeBoolean(ifLastPlayerHasMax = true);
+								objectOutputStream3.writeBoolean(ifLastPlayerHasMax = true);
+								objectOutputStream4.writeBoolean(ifLastPlayerHasMax = true);
+								listOfPlayers.get(i).addScore();
+								objectOutputStream.writeUTF((i + 1) + rolledTheHighestValue);
+								objectOutputStream2.writeUTF((i + 1) + rolledTheHighestValue);
+								objectOutputStream3.writeUTF((i + 1) + rolledTheHighestValue);
+								objectOutputStream4.writeUTF((i + 1) + rolledTheHighestValue);
+
+								break outerloop;
+							} else {
+								objectOutputStream.writeBoolean(ifLastPlayerHasMax = false);
+								objectOutputStream2.writeBoolean(ifLastPlayerHasMax = false);
+								objectOutputStream3.writeBoolean(ifLastPlayerHasMax = false);
+								objectOutputStream4.writeBoolean(ifLastPlayerHasMax = false);
+								break outerloop;
+							}
+						}
+
+					}
+					// Printing out the scoring sheet:
+					objectOutputStream.writeUTF(scoringList);
+					objectOutputStream2.writeUTF(scoringList);
+					objectOutputStream3.writeUTF(scoringList);
+					objectOutputStream4.writeUTF(scoringList);
+					for (int i = 0; i < clientNumber; i++) {
+						objectOutputStream.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
+						objectOutputStream2.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
+						objectOutputStream3.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
+						objectOutputStream4.writeUTF(listOfPlayers.get(i).getName() + totalScore + listOfPlayers.get(i).getTotalScore());
+						
+//						if (listOfPlayers.get(i).getTotalScore() == scoreToWin) {
+//							YOUHAVEWON = true;
+//						} else {
+//							YOUHAVEWON = false;
+//						}
+						
+						
+					}
+			}
+
+				
+//				 If Scanner sc read something else than 'r':
+//				else if (objectInputStream.readChar() != roll) {
+//					wrongInput = true;
+//					objectOutputStream.writeBoolean(wrongInput);
+//					objectOutputStream.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
+//					roll = objectInputStream.readChar();
+//					
+//				} else if(objectInputStream2.readChar() != roll) {
+//					wrongInput = true;
+//					objectOutputStream2.writeBoolean(wrongInput);
+//					objectOutputStream2.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
+//					roll = objectInputStream2.readChar();
+//					
+//				} else if(objectInputStream3.readChar() != roll) {
+//					wrongInput = true;
+//					objectOutputStream3.writeBoolean(wrongInput);
+//					objectOutputStream3.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
+//					roll = objectInputStream3.readChar();
+//					
+//				} else if ( objectInputStream4.readChar() != roll) {
+//					wrongInput = true;
+//					objectOutputStream4.writeBoolean(wrongInput);
+//					objectOutputStream4.writeUTF("Invalid input.\\n\\n\\nPress 'r' to roll");
+//					roll = objectInputStream4.readChar();
+//				}
+
+			}
+				
+			}
+//			
+//			Random rand = new Random();
+//			char rollValue = objectInputStream.readChar();
+//			System.out.println(rollValue);
+//			objectOutputStream.writeUTF("You rollled " + rand.nextInt(50) );
+//			
+//			rollValue = objectInputStream2.readChar();
+//			System.out.println(rollValue);
+//			objectOutputStream2.writeUTF("You rollled " + rollValue);
+//			
+//			rollValue = objectInputStream3.readChar();
+//			System.out.println(rollValue);
+//			objectOutputStream3.writeUTF("You rollled " + rollValue);
+//			
+//			rollValue = objectInputStream4.readChar();
+//			System.out.println(rollValue);
+//			objectOutputStream4.writeUTF("You rollled " + rollValue);
+		
 		
 		// Method needed for when players win 
+		/*
 	    boolean PlayerWon(int positionState) {
 	        // Print message if game-over
 	        if (positionState == socket1) {
@@ -325,9 +523,9 @@ public class Lobby implements Serializable {
 	        } else {
 	            return false;
 	            }
-	        }
+	        }*/
 	    }
-}
+
 
 /*
  * // numberOfPlayers = Server.getNumberOfClients();

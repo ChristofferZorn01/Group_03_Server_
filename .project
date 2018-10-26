@@ -14,4 +14,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Server/src/Dice.java</name>
+			<type>1</type>
+			<location>/Users/oddur/git/Group_03_Server_/MiniprojectPCSS/src/Dice.java</location>
+		</link>
+		<link>
+			<name>Server/src/src</name>
+			<type>2</type>
+			<location>/Users/oddur/git/Group_03_Server_/MiniprojectPCSS/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>
