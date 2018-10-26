@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 // TODO: What happens if three players get the same - can Random in Dice class be made, so only two of the same numbers can be rolled?
 // TODO: Go through all variables and methods - are they used? Can they be optimized? 
+// Will write // checked at variables and methods, that I have checked. 
+
 
 // This is the 'game', that controls the scores for each  player, at rolls the die. 
 public class Test {
