@@ -1,4 +1,4 @@
-package main;
+package game;
 import java.io.DataInputStream;
 import java.util.Collections;
 import java.io.DataOutputStream;
@@ -11,7 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import master.MainServer;
+import main.MainServer;
 
 /**
  * The Class Lobby.
@@ -401,7 +401,7 @@ public class Lobby extends VariableClass implements Serializable {
 						YOUHAVEWON = true; // this boolean becomes true
 						
 						// The name of the winning player + info that he has won the game is assigned to this String variable
-						winningPlayer = listOfPlayers.get(i).getName() + " won the game";
+						winningPlayer = listOfPlayers.get(i).getName() + " won the game!!!!!!!";
 					break;
 						// if no one has won, this bool stays false
 					} else {
