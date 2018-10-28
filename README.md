@@ -6,6 +6,7 @@ Aalborg University Medialogy Group 3 Semester 3 2018 <br /> Dice Racing Digital 
 
 Welcome to the 2018 Medialogy 3 Group 3 Dice Racing Digital Board game! <br />
 Built in Java for the AAU Medialogy Programming MiniProject.
+This game is run in the consol of the environment of which the files are opened.
 
 ------
 
